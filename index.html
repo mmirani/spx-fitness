@@ -13,10 +13,15 @@
   <!-- App Header -->
   <header class="app-header">
     <div class="brand">
-      <div class="brand-logo">MWP</div>
+      <div class="brand-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="4.5" r="2.1" fill="currentColor"/>
+          <path d="M9.5 9L11 8l1.3 2.6L16 9.2M8.5 21l2-6.5-2.2-1.8.7-3.7M13.3 10.6l1 2.6-2.4 2 1 5.8M11.5 21l1.8-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <div class="brand-text">
-        <h1>Mirani Walking Pad</h1>
-        <span>Walking Pad Controller</span>
+        <h1>Mirani</h1>
+        <span>Walking Pad</span>
       </div>
     </div>
 
@@ -34,8 +39,8 @@
         <span class="status-dot" id="status-dot"></span>
         <span id="status-text">Disconnected</span>
       </div>
-      <button class="btn-primary" id="connect-btn">Connect Walking Pad</button>
-      <button class="btn-secondary" id="sim-btn">Simulator Mode</button>
+      <button class="btn-primary" id="connect-btn">Connect</button>
+      <button class="btn-secondary" id="sim-btn">Simulator</button>
     </div>
   </header>
 
@@ -45,12 +50,12 @@
     <!-- TAB 1: DASHBOARD -->
     <section class="tab-content active" id="tab-dashboard">
       <div class="dashboard-grid">
-        
-        <!-- Left Column: Controls & Gauge -->
-        <div>
-          <div class="card">
+
+        <!-- Left Column: Speed & Controls -->
+        <div class="panel-col">
+          <div class="card speed-card">
             <div class="card-title">
-              <span>Treadmill Controls</span>
+              <span>Speed</span>
               <div class="unit-toggle">
                 <button class="unit-btn active" id="unit-mph">MPH</button>
                 <button class="unit-btn" id="unit-kmh">KM/H</button>
@@ -58,80 +63,62 @@
             </div>
 
             <!-- Connection Banner (hidden when connected) -->
-            <div id="connect-banner" style="
-              background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
-              border: 1px solid rgba(59,130,246,0.4);
-              border-radius: 12px;
-              padding: 1rem 1.2rem;
-              margin-bottom: 1rem;
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 1rem;
-            ">
+            <div id="connect-banner" class="connect-banner">
               <div>
-                <div style="font-weight: 700; color: var(--accent-blue); font-size: 0.9rem;">📶 Not Connected</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Connect to your walking pad to control the belt</div>
+                <div class="connect-banner-title">Not connected</div>
+                <div class="connect-banner-sub">Connect to your walking pad to control the belt</div>
               </div>
-              <button id="btn-connect-dashboard" style="
-                background: var(--accent-blue);
-                color: #fff;
-                border: none;
-                border-radius: 8px;
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-                font-weight: 700;
-                cursor: pointer;
-                white-space: nowrap;
-                flex-shrink: 0;
-              ">Connect Pad</button>
+              <button id="btn-connect-dashboard" class="btn-primary btn-connect-inline">Connect</button>
             </div>
 
             <!-- Main Speed HUD Panel -->
-            <div class="control-panel" id="control-panel-inner" style="opacity: 0.4; pointer-events: none;">
-              <div class="target-speed-display">
-                <span class="target-speed-val" id="target-speed-val">0.2</span>
-                <span class="hud-unit" id="speed-unit-label" style="font-size: 1.2rem; font-weight:700;">MPH</span>
+            <div class="control-panel" id="control-panel-inner">
+              <div class="speed-hero">
+                <span class="speed-hero-val" id="hud-speed">0.0</span>
+                <span class="speed-hero-unit" id="speed-unit-label">mph</span>
               </div>
-              <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Target Speed</div>
+              <div class="speed-target-row">
+                <span class="speed-target-label">Target</span>
+                <span class="speed-target-val" id="target-speed-val">0.2</span>
+              </div>
 
               <!-- Speed Adjustment Buttons -->
               <div class="speed-adjust-group">
-                <button class="btn-speed" id="btn-speed-down" title="Decrease speed">-</button>
-                <button class="btn-speed" id="btn-speed-up" title="Increase speed">+</button>
+                <button class="btn-speed" id="btn-speed-down" title="Decrease speed" aria-label="Decrease speed">&minus;</button>
+                <button class="btn-speed" id="btn-speed-up" title="Increase speed" aria-label="Increase speed">+</button>
               </div>
 
               <!-- Start / Pause / Stop Actions -->
               <div class="action-group">
-                <button class="btn-action btn-start" id="btn-start" disabled>START</button>
-                <button class="btn-action btn-pause" id="btn-pause" style="display:none;">PAUSE</button>
-                <button class="btn-action btn-stop" id="btn-stop" disabled>STOP</button>
+                <button class="btn-action btn-start" id="btn-start" disabled>Start</button>
+                <button class="btn-action btn-pause" id="btn-pause" style="display:none;">Pause</button>
+                <button class="btn-action btn-stop" id="btn-stop" disabled>Stop</button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Right Column: Live Telemetry & Speed Chart -->
-        <div style="display: flex; flex-direction: column; gap: 2rem;">
-          
-          <!-- Telemetry HUD Grid -->
-          <div class="hud-grid">
-            <div class="hud-tile speed-tile">
-              <div class="hud-label">Current Speed</div>
-              <div class="hud-value" id="hud-speed">0.0</div>
-              <div class="hud-unit">speed</div>
-            </div>
+        <!-- Right Column: Steps, Telemetry & Speed Chart -->
+        <div class="panel-col">
 
+          <!-- Steps: hero stat -->
+          <div class="card steps-card">
+            <div class="hud-label">Steps</div>
+            <div class="steps-value" id="hud-steps">0</div>
+          </div>
+
+          <!-- Secondary Telemetry -->
+          <div class="hud-grid">
             <div class="hud-tile time-tile">
               <div class="hud-label">Time</div>
               <div class="hud-value" id="hud-time">00:00</div>
-              <div class="hud-unit">mins</div>
+              <div class="hud-unit">min</div>
             </div>
 
             <div class="hud-tile dist-tile">
               <div class="hud-label">Distance</div>
               <div class="hud-value" id="hud-dist">0.00</div>
-              <div class="hud-unit">miles</div>
+              <div class="hud-unit">mi</div>
             </div>
 
             <div class="hud-tile cal-tile">
@@ -141,11 +128,10 @@
             </div>
           </div>
 
-          <!-- Secondary Telemetry: Steps & Chart -->
-          <div class="card">
+          <!-- Speed Chart -->
+          <div class="card chart-card">
             <div class="card-title">
-              <span>Live Speed Telemetry</span>
-              <span style="font-size: 0.85rem; color: var(--primary); font-weight: 600;">👟 <span id="hud-steps">0</span> Steps</span>
+              <span>Speed Over Time</span>
             </div>
             <div class="chart-container" id="chart-wrapper"></div>
           </div>
@@ -189,19 +175,19 @@
 
     <!-- TAB 4: SETTINGS -->
     <section class="tab-content" id="tab-settings">
-      <div class="card" style="max-width: 600px; margin: 0 auto; width: 100%;">
+      <div class="card settings-card">
         <div class="card-title">Settings</div>
-        
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-          <div>
-            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">User Weight (kg)</label>
-            <input type="number" id="setting-weight" value="70" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: #fff; padding: 0.75rem; border-radius: var(--radius-md); width: 100%;">
-            <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; display: block;">Used to calculate accurate calorie burn during walking.</span>
+
+        <div class="settings-list">
+          <div class="settings-field">
+            <label for="setting-weight">User weight (kg)</label>
+            <input type="number" id="setting-weight" value="70">
+            <span class="settings-hint">Used to calculate accurate calorie burn during walking.</span>
           </div>
 
-          <div>
-            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Bluetooth Compatibility</label>
-            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+          <div class="settings-field">
+            <label>Bluetooth compatibility</label>
+            <p class="settings-hint settings-hint-block">
               Ensure Bluetooth is enabled on your Mac or Windows laptop. Web Bluetooth requires <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>. Ensure your walking pad is powered on and not connected to your mobile phone.
             </p>
           </div>

@@ -64,8 +64,8 @@ class SPXChartVisualizer {
       <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="overflow: visible;">
         <defs>
           <linearGradient id="speedGlow" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="#00f2fe" stop-opacity="0.0"/>
+            <stop offset="0%" stop-color="#4f8dfd" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#4f8dfd" stop-opacity="0.0"/>
           </linearGradient>
         </defs>
         
@@ -77,10 +77,10 @@ class SPXChartVisualizer {
         <path d="${areaPath}" fill="url(#speedGlow)" />
         
         <!-- Speed Line -->
-        <polyline points="${pointsStr}" fill="none" stroke="#00f2fe" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-        
+        <polyline points="${pointsStr}" fill="none" stroke="#4f8dfd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
         <!-- Current Point Marker -->
-        <circle cx="${lastX}" cy="${height - padding - (this.dataPoints[this.dataPoints.length - 1].speed / maxSpeed) * chartH}" r="6" fill="#00f2fe" stroke="#ffffff" stroke-width="2">
+        <circle cx="${lastX}" cy="${height - padding - (this.dataPoints[this.dataPoints.length - 1].speed / maxSpeed) * chartH}" r="5" fill="#4f8dfd" stroke="#ffffff" stroke-width="2">
           <animate attributeName="r" values="5;8;5" dur="1.5s" repeatCount="indefinite" />
         </circle>
       </svg>
