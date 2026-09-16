@@ -121,6 +121,10 @@ body {
 }
 
 .user-switcher {
+  position: relative;
+}
+
+.user-trigger {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -128,13 +132,36 @@ body {
   border-radius: 30px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-color);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.user-trigger:hover,
+.user-switcher.open .user-trigger {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-color-strong);
+}
+
+.user-trigger-name {
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.user-chevron {
+  color: var(--text-dim);
+  transition: transform 0.15s ease;
+}
+
+.user-switcher.open .user-chevron {
+  transform: rotate(180deg);
 }
 
 .user-avatar {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: linear-gradient(160deg, #5c9bff, var(--primary));
   color: #06090f;
   font-size: 0.75rem;
   font-weight: 800;
@@ -144,19 +171,61 @@ body {
   flex-shrink: 0;
 }
 
-.user-switcher select {
-  background: transparent;
-  border: none;
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.82rem;
-  cursor: pointer;
-  outline: none;
+.user-avatar[data-user="Mansur"] { background: linear-gradient(160deg, #5c9bff, var(--primary)); }
+.user-avatar[data-user="Sonia"] { background: linear-gradient(160deg, #ff8ad4, #e754a8); }
+.user-avatar[data-user="Rehaan"] { background: linear-gradient(160deg, #4de3a4, var(--accent-green)); }
+.user-avatar[data-user="Amaya"] { background: linear-gradient(160deg, #ffbb50, var(--accent-amber)); }
+
+.user-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 180px;
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.7);
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  z-index: 200;
 }
 
-.user-switcher select option {
-  background: var(--bg-card-solid);
+.user-switcher.open .user-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.user-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.user-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+}
+
+.user-option.active {
+  background: var(--primary-soft);
   color: var(--text-main);
 }
 
@@ -366,12 +435,16 @@ body {
   flex-direction: column;
 }
 
+.speed-card .card-title {
+  margin-bottom: 0.9rem;
+}
+
 .control-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.75rem;
-  padding: 0.5rem 0 0.25rem;
+  gap: 1.1rem;
+  padding: 0;
   opacity: 0.4;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -386,7 +459,7 @@ body {
 
 .speed-hero-val {
   font-variant-numeric: tabular-nums;
-  font-size: clamp(3.2rem, 9vw, 4.75rem);
+  font-size: clamp(2.4rem, 6vw, 3.25rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--text-main);
@@ -431,11 +504,11 @@ body {
 }
 
 .btn-speed {
-  width: 80px;
-  height: 80px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
   border: none;
-  font-size: 2.1rem;
+  font-size: 1.6rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -478,12 +551,12 @@ body {
   gap: 0.9rem;
   width: 100%;
   max-width: 420px;
-  margin-top: 0.5rem;
+  margin-top: 0.15rem;
 }
 
 .btn-action {
   flex: 1;
-  padding: 1.15rem;
+  padding: 0.9rem;
   border-radius: var(--radius-md);
   border: none;
   font-family: var(--font-sans);
@@ -539,45 +612,33 @@ body {
   box-shadow: 0 14px 28px -8px rgba(245, 69, 92, 0.5);
 }
 
-/* ---------- Steps Hero Card ---------- */
-.steps-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
-}
-
-.steps-card .hud-label {
-  margin-bottom: 0;
-}
-
-.steps-value {
-  font-variant-numeric: tabular-nums;
-  font-size: clamp(3rem, 8vw, 4.25rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--primary);
-  line-height: 1.05;
-}
-
 /* ---------- Telemetry HUD Grid ---------- */
 .hud-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 420px) {
   .hud-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+.hud-tile.steps-tile {
+  border-color: rgba(79, 141, 253, 0.35);
+  background: var(--primary-soft);
+}
+
+.hud-tile.steps-tile .hud-value {
+  color: var(--primary);
 }
 
 .hud-tile {
   background: var(--bg-tile);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.15rem 0.75rem;
+  padding: 0.95rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -598,7 +659,7 @@ body {
 
 .hud-value {
   font-variant-numeric: tabular-nums;
-  font-size: clamp(1.6rem, 4.5vw, 2.1rem);
+  font-size: clamp(1.15rem, 3.2vw, 1.9rem);
   font-weight: 800;
   color: var(--text-main);
   letter-spacing: -0.02em;

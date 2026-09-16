@@ -35,14 +35,18 @@
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <div class="user-switcher">
-        <span class="user-avatar" id="user-avatar">M</span>
-        <select id="user-select" aria-label="Active user">
-          <option value="Mansur">Mansur</option>
-          <option value="Sonia">Sonia</option>
-          <option value="Rehaan">Rehaan</option>
-          <option value="Amaya">Amaya</option>
-        </select>
+      <div class="user-switcher" id="user-switcher">
+        <button class="user-trigger" id="user-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar" data-user="Mansur">M</span>
+          <span class="user-trigger-name" id="user-trigger-name">Mansur</span>
+          <svg class="user-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="user-menu" id="user-menu" role="listbox">
+          <button class="user-option" data-user="Mansur" role="option"><span class="user-avatar" data-user="Mansur">M</span>Mansur</button>
+          <button class="user-option" data-user="Sonia" role="option"><span class="user-avatar" data-user="Sonia">S</span>Sonia</button>
+          <button class="user-option" data-user="Rehaan" role="option"><span class="user-avatar" data-user="Rehaan">R</span>Rehaan</button>
+          <button class="user-option" data-user="Amaya" role="option"><span class="user-avatar" data-user="Amaya">A</span>Amaya</button>
+        </div>
       </div>
       <div class="connection-pill">
         <span class="status-dot" id="status-dot"></span>
@@ -110,14 +114,13 @@
         <!-- Right Column: Steps, Telemetry & Speed Chart -->
         <div class="panel-col">
 
-          <!-- Steps: hero stat -->
-          <div class="card steps-card">
-            <div class="hud-label">Steps</div>
-            <div class="steps-value" id="hud-steps">0</div>
-          </div>
-
-          <!-- Secondary Telemetry -->
+          <!-- Telemetry: Steps + Time + Distance + Calories, one row -->
           <div class="hud-grid">
+            <div class="hud-tile steps-tile">
+              <div class="hud-label">Steps</div>
+              <div class="hud-value" id="hud-steps">0</div>
+            </div>
+
             <div class="hud-tile time-tile">
               <div class="hud-label">Time</div>
               <div class="hud-value" id="hud-time">00:00</div>

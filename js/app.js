@@ -28,22 +28,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (legacyHistory) localStorage.removeItem('spx_history');
 
-  // User Switcher
-  const userSelect = document.getElementById('user-select');
+  // User Switcher (custom popover menu, not a native <select>)
+  const userSwitcher = document.getElementById('user-switcher');
+  const userTrigger = document.getElementById('user-trigger');
+  const userMenu = document.getElementById('user-menu');
   const userAvatar = document.getElementById('user-avatar');
+  const userTriggerName = document.getElementById('user-trigger-name');
   const historyUserLabel = document.getElementById('history-user-label');
+  const userOptions = userMenu ? Array.from(userMenu.querySelectorAll('.user-option')) : [];
+
+  const closeUserMenu = () => {
+    if (!userSwitcher) return;
+    userSwitcher.classList.remove('open');
+    if (userTrigger) userTrigger.setAttribute('aria-expanded', 'false');
+  };
 
   const applyUser = (name) => {
     setCurrentUser(name);
-    if (userSelect) userSelect.value = name;
-    if (userAvatar) userAvatar.textContent = name.charAt(0);
+    if (userAvatar) {
+      userAvatar.textContent = name.charAt(0);
+      userAvatar.setAttribute('data-user', name);
+    }
+    if (userTriggerName) userTriggerName.textContent = name;
     if (historyUserLabel) historyUserLabel.textContent = name;
+    userOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.user === name));
     loadHistoryTable();
   };
 
-  if (userSelect) {
-    userSelect.addEventListener('change', () => applyUser(userSelect.value));
+  if (userTrigger) {
+    userTrigger.addEventListener('click', () => {
+      const isOpen = userSwitcher.classList.toggle('open');
+      userTrigger.setAttribute('aria-expanded', String(isOpen));
+    });
   }
+
+  userOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      applyUser(opt.dataset.user);
+      closeUserMenu();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (userSwitcher && !userSwitcher.contains(e.target)) closeUserMenu();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeUserMenu();
+  });
+
   applyUser(getCurrentUser());
 
   // UI Element References
