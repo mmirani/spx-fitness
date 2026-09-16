@@ -3,79 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SPX Fitness - Sperax Walking Pad Controller</title>
-  <meta name="description" content="Control your Sperax walking pad treadmill via Web Bluetooth API directly on Windows laptops and Macs. Real-time telemetry, speed control, preset programs, and session analytics.">
+  <title>Mirani Walking Pad</title>
+  <meta name="description" content="Control your walking pad treadmill via Web Bluetooth API directly from a laptop. Real-time telemetry, speed control, preset programs, and session analytics.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    /* Inspector Log Console Styling */
-    .inspector-card {
-      margin-top: 1.5rem;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-    }
-    .inspector-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .inspector-log-box {
-      font-family: monospace;
-      font-size: 0.75rem;
-      background: #020408;
-      color: #00f2fe;
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem;
-      height: 140px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      line-height: 1.4;
-      margin-bottom: 0.75rem;
-    }
-    .log-entry.error { color: #ff3366; }
-    .log-entry.warn { color: #ff9100; }
-    .log-entry.success { color: #00e676; }
-    
-    .diag-btn-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 0.4rem;
-    }
-    .diag-btn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.4rem 0.2rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .diag-btn:hover {
-      background: var(--primary);
-      color: #060911;
-    }
-  </style>
 </head>
 <body>
 
   <!-- App Header -->
   <header class="app-header">
     <div class="brand">
-      <div class="brand-logo">SPX</div>
+      <div class="brand-logo">MWP</div>
       <div class="brand-text">
-        <h1>SPX Fitness</h1>
-        <span>Walking Pad Web Controller</span>
+        <h1>Mirani Walking Pad</h1>
+        <span>Walking Pad Controller</span>
       </div>
     </div>
 
@@ -84,7 +25,7 @@
       <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
       <button class="nav-btn" data-tab="programs">Programs</button>
       <button class="nav-btn" data-tab="history">History</button>
-      <button class="nav-btn" data-tab="settings">Settings & Diagnostics</button>
+      <button class="nav-btn" data-tab="settings">Settings</button>
     </nav>
 
     <!-- Header Actions -->
@@ -93,8 +34,7 @@
         <span class="status-dot" id="status-dot"></span>
         <span id="status-text">Disconnected</span>
       </div>
-      <button class="btn-primary" id="connect-btn">Connect Sperax Walking Pad</button>
-      <button class="btn-secondary" id="scan-all-btn">Scan All BLE</button>
+      <button class="btn-primary" id="connect-btn">Connect Walking Pad</button>
       <button class="btn-secondary" id="sim-btn">Simulator Mode</button>
     </div>
   </header>
@@ -112,8 +52,8 @@
             <div class="card-title">
               <span>Treadmill Controls</span>
               <div class="unit-toggle">
-                <button class="preset-btn active" id="unit-mph" style="padding: 0.3rem 0.6rem; font-size:0.8rem;">MPH</button>
-                <button class="preset-btn" id="unit-kmh" style="padding: 0.3rem 0.6rem; font-size:0.8rem;">KM/H</button>
+                <button class="unit-btn active" id="unit-mph">MPH</button>
+                <button class="unit-btn" id="unit-kmh">KM/H</button>
               </div>
             </div>
 
@@ -131,7 +71,7 @@
             ">
               <div>
                 <div style="font-weight: 700; color: var(--accent-blue); font-size: 0.9rem;">📶 Not Connected</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Connect to your Sperax RM01 to control the belt</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Connect to your walking pad to control the belt</div>
               </div>
               <button id="btn-connect-dashboard" style="
                 background: var(--accent-blue);
@@ -150,7 +90,7 @@
             <!-- Main Speed HUD Panel -->
             <div class="control-panel" id="control-panel-inner" style="opacity: 0.4; pointer-events: none;">
               <div class="target-speed-display">
-                <span class="target-speed-val" id="target-speed-val">1.5</span>
+                <span class="target-speed-val" id="target-speed-val">0.2</span>
                 <span class="hud-unit" id="speed-unit-label" style="font-size: 1.2rem; font-weight:700;">MPH</span>
               </div>
               <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Target Speed</div>
@@ -161,14 +101,6 @@
                 <button class="btn-speed" id="btn-speed-up" title="Increase speed">+</button>
               </div>
 
-              <!-- Quick Speed Presets -->
-              <div class="preset-grid">
-                <button class="preset-btn" data-speed="1.0">1.0</button>
-                <button class="preset-btn" data-speed="2.0">2.0</button>
-                <button class="preset-btn" data-speed="3.0">3.0</button>
-                <button class="preset-btn" data-speed="4.0">4.0</button>
-              </div>
-
               <!-- Start / Pause / Stop Actions -->
               <div class="action-group">
                 <button class="btn-action btn-start" id="btn-start" disabled>START</button>
@@ -176,23 +108,6 @@
                 <button class="btn-action btn-stop" id="btn-stop" disabled>STOP</button>
               </div>
             </div>
-          </div>
-
-          <!-- Live BLE Protocol Log Inspector -->
-          <div class="inspector-card">
-            <div class="inspector-title">
-              <span>📡 Bluetooth Telemetry & Inspector Log</span>
-              <button id="clear-log-btn" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.75rem;">Clear Log</button>
-            </div>
-            <div class="inspector-log-box" id="inspector-log">Click "Connect Sperax Walking Pad" to pair and inspect GATT channels...</div>
-
-            <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.4rem; text-transform: uppercase; font-weight: 700;">Confirmed Real Commands (captured from official app traffic):</div>
-            <div class="diag-btn-grid">
-              <button class="diag-btn confirmed-btn" data-cmd="start" title="0xf5 0x0a 0x00 0x15 0x01 0x02 0x00 0xbe 0x98 0xfa">Start Belt</button>
-              <button class="diag-btn confirmed-btn" data-cmd="pause" title="0xf5 0x0a 0x00 0x15 0x02 0x00 0x00 0xc3 0x19 0xfa">Pause Belt</button>
-              <button class="diag-btn confirmed-btn" data-cmd="stop" title="0xf5 0x0a 0x00 0x15 0x00 0x00 0x00 0xd3 0x01 0xfa">Stop Belt</button>
-            </div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem;">Speed control isn't wired to real hardware yet — the app's SET SPEED frame + checksum haven't been captured. See PROJECT_CONTEXT.md.</div>
           </div>
         </div>
 
@@ -275,7 +190,7 @@
     <!-- TAB 4: SETTINGS -->
     <section class="tab-content" id="tab-settings">
       <div class="card" style="max-width: 600px; margin: 0 auto; width: 100%;">
-        <div class="card-title">App Settings & Diagnostics</div>
+        <div class="card-title">Settings</div>
         
         <div style="display: flex; flex-direction: column; gap: 1.5rem;">
           <div>
@@ -285,9 +200,9 @@
           </div>
 
           <div>
-            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Windows & Mac Bluetooth Compatibility</label>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Bluetooth Compatibility</label>
             <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
-              Ensure Bluetooth is enabled on your Mac or Windows laptop. Web Bluetooth requires <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>. Ensure your Sperax walking pad is powered on and not connected to your mobile phone.
+              Ensure Bluetooth is enabled on your Mac or Windows laptop. Web Bluetooth requires <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>. Ensure your walking pad is powered on and not connected to your mobile phone.
             </p>
           </div>
         </div>
@@ -297,6 +212,7 @@
   </main>
 
   <!-- Scripts -->
+  <script src="js/sfx.js"></script>
   <script src="js/ble.js"></script>
   <script src="js/treadmill.js"></script>
   <script src="js/programs.js"></script>

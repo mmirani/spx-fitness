@@ -391,3 +391,77 @@ Next steps:
   js/ble.js. Belt on/off and the low end of speed control are confirmed
   working live; the 2.0-6.0 km/h presets are implemented but not yet
   verified against the real pad — next step is a live re-test.
+
+2026-09-16 (session 7 — rebrand, UX/safety pass, sound feedback, deploy)
+  User confirmed everything works great on the real pad across the full
+  speed range. Follow-up requests turned this into a polish/safety/deploy
+  pass rather than further protocol reverse-engineering:
+
+  SAFETY: Removed the fast quick-jump speed presets (2.0/3.0/4.0 km/h
+  buttons) entirely — the user explicitly wants no "jump to a fast speed"
+  shortcuts. Every session now always starts at a fixed 0.3 km/h safety
+  floor (TreadmillEngine.MIN_SPEED_KMH), regardless of unit display or
+  whatever speed was left over from a previous session; the user must
+  manually step speed up/down with +/- only. Safety bounds are now stored
+  in km/h internally (MIN_SPEED_KMH=0.3, MAX_SPEED_KMH=6.0) and converted
+  to whichever display unit (mph/km-h) is active, so switching units never
+  changes the real target speed under the hood.
+
+  BLUETOOTH CONNECT UX: requestDevice() now filters the browser's device
+  picker to only show devices whose name starts with "SPERAX" (added
+  DEVICE_NAME_PREFIX + a namePrefix filter), so the user isn't scrolling
+  through unrelated nearby BLE devices. Removed the "Scan All BLE"
+  diagnostic button entirely. Added tryAutoReconnect() using Web
+  Bluetooth's persistent-permission navigator.bluetooth.getDevices() API —
+  once the pad has been paired once via the picker, future page loads
+  silently reconnect with NO picker dialog at all. (Web Bluetooth's
+  security model still requires one user-gesture + picker tap the very
+  first time a new browser profile connects to the pad — that cannot be
+  bypassed by any web page, per spec.)
+
+  SOUND FEEDBACK (new js/sfx.js, loaded first): a small WebAudio effects
+  module used everywhere for audible confirmation, since a toast is easy
+  to miss while walking: success() chime (connect/start/confirmed
+  commands), error() buzz (failed connects, dropped connection, rejected
+  commands), speedUp()/speedDown() blips on every +/- press while running,
+  stopped() cue on STOP, click() for generic feedback, milestone() reserved
+  for future workout-goal cues. Wired into ble.js's requestDevice/connect
+  flow, treadmill.js's start/pause/stop/setTargetSpeed, and app.js's
+  connect handlers and status listener (including a "surprise disconnect"
+  error cue, but not on first page load).
+
+  REBRAND: Renamed the app from "SPX Fitness" to "Mirani Walking Pad"
+  throughout (page title, header logo/brand text, connect button copy,
+  toasts, settings copy). Kept internal class/variable names
+  (SPXBluetoothDriver, spxTreadmill, etc.) unchanged to avoid unnecessary
+  churn — only user-facing strings were rebranded.
+
+  DIAGNOSTICS REMOVED: Deleted the "Live BLE Protocol Log Inspector" panel
+  (raw hex TX log + Start/Pause/Stop "confirmed command" test buttons) from
+  the dashboard entirely — no longer needed now that the protocol is fully
+  solved and confirmed working. registerLogListener() still exists in
+  ble.js (harmless/unused) in case diagnostics are wanted again later.
+
+  DISPLAY REDESIGN for a 15" laptop screen: Current Speed is now the hero
+  metric — a full-width tile with a 6rem glowing number, sized to read at
+  a glance while walking. Time/Distance/Calories moved to a secondary row
+  below it. Target-speed number and the +/- speed buttons on the left
+  panel were also enlarged (5.5rem digits, 88px round buttons) for the
+  same reason. Added a proper `.unit-toggle`/`.unit-btn` CSS component
+  for the MPH/KM-H pill toggle (previously reusing now-deleted
+  `.preset-btn` styles).
+
+  DEPLOY: Initialized git in the project (previously not a repo), created
+  GitHub repo mmirani/spx-fitness (public) and pushed. Authenticated the
+  Vercel CLI via device-code OAuth login (user approved in-browser) and
+  deployed the static site to Vercel so it's reachable from any machine on
+  the internet, not just localhost:8125 — the actual RM01 pad hardware
+  will run on a separate machine from this dev machine. See README/deploy
+  URL for the live link.
+
+  STATUS: Protocol, safety floor, speed control, and sound feedback are
+  all confirmed/implemented. App is deployed to Vercel for cross-machine
+  access. Remaining open item from earlier sessions: the user once
+  mentioned the on-screen displayed speed "changes but not consistently"
+  — worth re-testing now that so much has changed, but no specific report
+  of this recurring since.

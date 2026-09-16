@@ -1,15 +1,15 @@
 {
   "js/app.js": {
-    "mtime": 1789541472.8835866,
-    "seen": 1789541595.6048799,
-    "ast_hash": "8108a6618cdd8bc97d9e272dc402dd59",
-    "semantic_hash": "8108a6618cdd8bc97d9e272dc402dd59"
+    "mtime": 1789597043.289029,
+    "seen": 1789597085.570714,
+    "ast_hash": "84f10310012d26bfa65b9d087559c2bb",
+    "semantic_hash": "84f10310012d26bfa65b9d087559c2bb"
   },
   "js/ble.js": {
-    "mtime": 1789564965.179417,
-    "seen": 1789564994.289537,
-    "ast_hash": "7c72b1cc9dec1e3c4c19e7a0ac3628a4",
-    "semantic_hash": "7c72b1cc9dec1e3c4c19e7a0ac3628a4"
+    "mtime": 1789596588.3597662,
+    "seen": 1789597085.570716,
+    "ast_hash": "84ed65df415e6779cf4a52c6a91a46b1",
+    "semantic_hash": "84ed65df415e6779cf4a52c6a91a46b1"
   },
   "js/charts.js": {
     "mtime": 1789519818.4507914,
@@ -24,10 +24,10 @@
     "semantic_hash": "438e248df6d18a585e52e947f71a8229"
   },
   "js/treadmill.js": {
-    "mtime": 1789541456.555535,
-    "seen": 1789541595.604969,
-    "ast_hash": "e93bc9c3d363503fcf2527b1c8150267",
-    "semantic_hash": "e93bc9c3d363503fcf2527b1c8150267"
+    "mtime": 1789597032.472395,
+    "seen": 1789597085.5708,
+    "ast_hash": "7996040864e1202f2f2aa28d24310243",
+    "semantic_hash": "7996040864e1202f2f2aa28d24310243"
   },
   "PROJECT_CONTEXT.md": {
     "mtime": 1789520802.0485382,
@@ -76,5 +76,11 @@
     "seen": 1789564994.2896,
     "ast_hash": "077b832e9deb7f28086d82048ded3c5b",
     "semantic_hash": "077b832e9deb7f28086d82048ded3c5b"
+  },
+  "js/sfx.js": {
+    "mtime": 1789596464.5280695,
+    "seen": 1789597085.570799,
+    "ast_hash": "248b8647415fa5888aba1d95c3e0a31d",
+    "semantic_hash": "248b8647415fa5888aba1d95c3e0a31d"
   }
 }

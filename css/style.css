@@ -226,17 +226,50 @@ body {
   color: var(--text-main);
 }
 
-/* Telemetry HUD Grid */
+/* MPH/KM-H unit toggle (small pill buttons in the Controls card header) */
+.unit-toggle {
+  display: flex;
+  gap: 0.4rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.unit-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.unit-btn:hover {
+  color: var(--text-main);
+}
+
+.unit-btn.active {
+  background: var(--primary);
+  color: #060911;
+}
+
+/* Telemetry HUD Grid — Speed is the hero metric (full-width, largest),
+   Time/Distance/Calories sit below as a secondary row. Sized generously for
+   at-a-glance reading on a 15" laptop screen a few feet from the pad. */
 .hud-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
 }
 
 @media (max-width: 768px) {
   .hud-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
@@ -244,7 +277,7 @@ body {
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -252,6 +285,11 @@ body {
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+
+.hud-tile.speed-tile {
+  grid-column: 1 / -1;
+  padding: 2.5rem 1.5rem;
 }
 
 .hud-tile::before {
@@ -271,7 +309,7 @@ body {
 .hud-tile.cal-tile::before { background: var(--accent-amber); opacity: 1; }
 
 .hud-label {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--text-muted);
@@ -279,19 +317,33 @@ body {
   margin-bottom: 0.5rem;
 }
 
+.hud-tile.speed-tile .hud-label {
+  font-size: 1rem;
+}
+
 .hud-value {
   font-family: var(--font-digital);
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 900;
   color: #ffffff;
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
 }
 
+.hud-tile.speed-tile .hud-value {
+  font-size: 6rem;
+  color: var(--primary);
+  text-shadow: 0 0 28px var(--primary-glow);
+}
+
 .hud-unit {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
   font-weight: 600;
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
+}
+
+.hud-tile.speed-tile .hud-unit {
+  font-size: 1.1rem;
 }
 
 /* Primary Speed Control Dial / Gauge */
@@ -311,7 +363,7 @@ body {
 
 .target-speed-val {
   font-family: var(--font-digital);
-  font-size: 4rem;
+  font-size: 5.5rem;
   font-weight: 900;
   color: var(--primary);
   text-shadow: 0 0 20px var(--primary-glow);
@@ -320,17 +372,17 @@ body {
 .speed-adjust-group {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .btn-speed {
-  width: 64px;
-  height: 64px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   border: 1px solid var(--border-glow);
   background: rgba(0, 242, 254, 0.08);
   color: var(--primary);
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -351,33 +403,6 @@ body {
   transform: scale(0.95);
 }
 
-/* Quick Speed Presets */
-.preset-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  width: 100%;
-  max-width: 480px;
-}
-
-.preset-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  padding: 0.75rem 0.5rem;
-  border-radius: var(--radius-md);
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.preset-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
 /* Action Buttons (Start / Stop) */
 .action-group {
   display: flex;
@@ -389,12 +414,12 @@ body {
 
 .btn-action {
   flex: 1;
-  padding: 1.25rem;
+  padding: 1.6rem;
   border-radius: var(--radius-md);
   border: none;
   font-family: var(--font-sans);
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;

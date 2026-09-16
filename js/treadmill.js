@@ -9,10 +9,16 @@ class TreadmillEngine {
 
     this.state = 'STOPPED'; // 'STOPPED', 'COUNTDOWN', 'RUNNING', 'PAUSED'
     this.currentSpeed = 0.0;
-    this.targetSpeed = 1.5; // Default initial walking speed (1.5 mph)
-    this.minSpeed = 0.5;
-    this.maxSpeed = 6.0; // Max speed for walking pad
-    this.speedStep = 0.1;
+
+    // Safety bounds are defined in km/h (the pad's native unit) so they stay
+    // correct regardless of the mph/kmh display toggle. Every session starts
+    // at the slow/safe floor speed — the user must manually step it up with
+    // the +/- buttons; there are no "jump to a fast speed" shortcuts.
+    this.MIN_SPEED_KMH = 0.3;
+    this.MAX_SPEED_KMH = 6.0;
+    this.speedStep = 0.1; // step size in the *currently displayed* unit
+
+    this.targetSpeed = this._kmhToDisplay(this.MIN_SPEED_KMH); // start-of-session default
 
     this.elapsedSeconds = 0;
     this.totalDistanceMiles = 0.0;
@@ -32,6 +38,11 @@ class TreadmillEngine {
 
     const savedUnit = localStorage.getItem('spx_unit');
     if (savedUnit) this.unit = savedUnit;
+
+    // Re-derive the displayed target speed now that the saved unit (if any)
+    // is known, so the on-screen default always reflects the real 0.3 km/h
+    // safety floor rather than a stale mph-assumed placeholder.
+    this.targetSpeed = this._kmhToDisplay(this.MIN_SPEED_KMH);
   }
 
   subscribe(cb) {
@@ -58,24 +69,44 @@ class TreadmillEngine {
     };
   }
 
+  _kmhToDisplay(kmh) {
+    const val = this.unit === 'mph' ? kmh / 1.60934 : kmh;
+    return Math.round(val * 10) / 10;
+  }
+
+  _displayToKmh(val) {
+    return this.unit === 'mph' ? val * 1.60934 : val;
+  }
+
   setUnit(unit) {
     if (unit === 'mph' || unit === 'kmh') {
+      // Re-express the current target speed (a real km/h value under the
+      // hood) in the newly selected display unit so switching units never
+      // silently changes the actual belt speed.
+      const targetKmh = this._displayToKmh(this.targetSpeed);
       this.unit = unit;
+      this.targetSpeed = this._kmhToDisplay(targetKmh);
       localStorage.setItem('spx_unit', unit);
       this.notify();
     }
   }
 
   setTargetSpeed(speed) {
-    let clamped = Math.max(this.minSpeed, Math.min(this.maxSpeed, speed));
+    const minDisplay = this._kmhToDisplay(this.MIN_SPEED_KMH);
+    const maxDisplay = this._kmhToDisplay(this.MAX_SPEED_KMH);
+    let clamped = Math.max(minDisplay, Math.min(maxDisplay, speed));
     clamped = Math.round(clamped * 10) / 10;
+    const prevSpeed = this.targetSpeed;
     this.targetSpeed = clamped;
 
     if (this.state === 'RUNNING') {
-      this.playBeep(600, 0.1);
+      if (clamped > prevSpeed && window.spxSfx) window.spxSfx.speedUp();
+      else if (clamped < prevSpeed && window.spxSfx) window.spxSfx.speedDown();
+
       if (window.spxBleDriver && window.spxBleDriver.isConnected) {
-        const speedKmh = this.unit === 'mph' ? clamped * 1.60934 : clamped;
-        window.spxBleDriver.setTargetSpeed(speedKmh);
+        window.spxBleDriver.setTargetSpeed(this._displayToKmh(clamped)).then(ok => {
+          if (!ok && window.spxSfx) window.spxSfx.error();
+        });
       }
     }
     this.notify();
@@ -103,13 +134,20 @@ class TreadmillEngine {
       this.totalDistanceMiles = 0;
       this.totalCalories = 0;
       this.totalSteps = 0;
+
+      // Safety: every new session always starts at the slow floor speed,
+      // regardless of whatever speed was left over from a prior session.
+      // The user must step it up manually with +/-.
+      this.targetSpeed = this._kmhToDisplay(this.MIN_SPEED_KMH);
     }
 
+    let ok = true;
     if (window.spxBleDriver && window.spxBleDriver.isConnected) {
-      await window.spxBleDriver.start();
-      const speedKmh = this.unit === 'mph' ? this.targetSpeed * 1.60934 : this.targetSpeed;
-      await window.spxBleDriver.setTargetSpeed(speedKmh);
+      ok = await window.spxBleDriver.start();
+      if (ok) ok = await window.spxBleDriver.setTargetSpeed(this._displayToKmh(this.targetSpeed));
     }
+
+    if (window.spxSfx) ok ? window.spxSfx.success() : window.spxSfx.error();
 
     this.state = 'RUNNING';
     this.startTimer();
@@ -120,9 +158,11 @@ class TreadmillEngine {
     if (this.state !== 'RUNNING') return;
     this.state = 'PAUSED';
     this.clearInterval();
-    this.playBeep(400, 0.2);
+    if (window.spxSfx) window.spxSfx.click();
     if (window.spxBleDriver && window.spxBleDriver.isConnected) {
-      window.spxBleDriver.pause();
+      window.spxBleDriver.pause().then(ok => {
+        if (!ok && window.spxSfx) window.spxSfx.error();
+      });
     }
     this.notify();
   }
@@ -132,10 +172,12 @@ class TreadmillEngine {
     this.state = 'STOPPED';
     this.clearInterval();
     this.currentSpeed = 0.0;
-    this.playBeep(300, 0.3);
+    if (window.spxSfx) window.spxSfx.stopped();
 
     if (window.spxBleDriver && window.spxBleDriver.isConnected) {
-      window.spxBleDriver.stop();
+      window.spxBleDriver.stop().then(ok => {
+        if (!ok && window.spxSfx) window.spxSfx.error();
+      });
     }
 
     const summary = this.getSnapshot();

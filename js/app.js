@@ -1,5 +1,5 @@
 /**
- * SPX Fitness - Main Application Controller
+ * Mirani Walking Pad - Main Application Controller
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // UI Element References
   const connectBtn = document.getElementById('connect-btn');
-  const scanAllBtn = document.getElementById('scan-all-btn');
   const simBtn = document.getElementById('sim-btn');
   const statusDot = document.getElementById('status-dot');
   const statusText = document.getElementById('status-text');
@@ -27,9 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const unitMphBtn = document.getElementById('unit-mph');
   const unitKmhBtn = document.getElementById('unit-kmh');
 
-  const inspectorLog = document.getElementById('inspector-log');
-  const clearLogBtn = document.getElementById('clear-log-btn');
-
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStop = document.getElementById('btn-stop');
@@ -38,40 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Speed Chart
   speedChart = new SPXChartVisualizer('chart-wrapper');
-
-  // Log Inspector Binding
-  if (inspectorLog && bleDriver) {
-    bleDriver.registerLogListener((msg, type) => {
-      const entry = document.createElement('div');
-      entry.className = `log-entry ${type || 'info'}`;
-      const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      entry.textContent = `[${timestamp}] ${msg}`;
-      inspectorLog.appendChild(entry);
-      inspectorLog.scrollTop = inspectorLog.scrollHeight;
-    });
-
-    if (clearLogBtn) {
-      clearLogBtn.addEventListener('click', () => {
-        inspectorLog.innerHTML = '';
-      });
-    }
-  }
-
-  // Confirmed real-command test buttons (start/pause/stop) — these send the
-  // exact byte-for-byte frames captured from the official app's BLE traffic.
-  document.querySelectorAll('.confirmed-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      if (!window.spxBleDriver.isConnected && !window.spxBleDriver.isSimulating) {
-        showToast('Connect the walking pad first (or use Simulator Mode)', 'error');
-        return;
-      }
-      const cmd = btn.getAttribute('data-cmd');
-      if (cmd === 'start') await bleDriver.start();
-      else if (cmd === 'pause') await bleDriver.pause();
-      else if (cmd === 'stop') await bleDriver.stop();
-      showToast(`Sent confirmed ${cmd.toUpperCase()} command — check Inspector log`, 'success');
-    });
-  });
 
   // Tab Router
   const navBtns = document.querySelectorAll('.nav-btn');
@@ -92,22 +54,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Bluetooth Connect Actions
-  const handleConnect = async (scanAll = false) => {
+  const handleConnect = async () => {
     try {
-      showToast(scanAll ? "Scanning all Bluetooth LE devices..." : "Searching for Sperax Walking Pad...");
-      const success = await bleDriver.requestDevice(scanAll);
+      showToast("Searching for Walking Pad...");
+      const success = await bleDriver.requestDevice();
       if (success) {
         showToast(`Connected to ${bleDriver.discoveredInfo || 'Walking Pad'}!`, "success");
+        if (window.spxSfx) window.spxSfx.success();
       }
     } catch (err) {
       if (err.name !== 'NotFoundError' && !err.message.includes('cancelled')) {
         showToast(`Connection error: ${err.message || err}`, "error");
+        if (window.spxSfx) window.spxSfx.error();
       }
     }
   };
 
-  if (connectBtn) connectBtn.addEventListener('click', () => handleConnect(false));
-  if (scanAllBtn) scanAllBtn.addEventListener('click', () => handleConnect(true));
+  if (connectBtn) connectBtn.addEventListener('click', () => handleConnect());
+
+  // Auto-reconnect: if the browser previously granted permission for this
+  // pad, silently reconnect on page load with no picker dialog at all.
+  // (First-ever connect on a machine still needs one picker tap — that's a
+  // Web Bluetooth security requirement, not something a page can skip.)
+  if (bleDriver && bleDriver.tryAutoReconnect) {
+    bleDriver.tryAutoReconnect().then(connected => {
+      if (connected) {
+        showToast(`Auto-connected to ${bleDriver.discoveredInfo || 'Walking Pad'}!`, "success");
+        if (window.spxSfx) window.spxSfx.success();
+      }
+    });
+  }
 
   // Simulation Toggle
   simBtn.addEventListener('click', () => {
@@ -142,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (connectDashBtn) {
-    connectDashBtn.addEventListener('click', () => handleConnect(false));
+    connectDashBtn.addEventListener('click', () => handleConnect());
   }
 
   // BLE Status Updates
@@ -156,18 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       setControlsEnabled(true);
     } else {
+      const wasConnected = connectBtn && connectBtn.disabled;
       statusDot.className = 'status-dot';
       statusText.textContent = 'Disconnected';
       if (connectBtn) {
-        connectBtn.textContent = 'Connect Sperax Walking Pad';
+        connectBtn.textContent = 'Connect Walking Pad';
         connectBtn.disabled = false;
       }
       setControlsEnabled(false);
+      // Only play the "error" cue for a surprise disconnect while we thought
+      // we were connected — not on the very first page load.
+      if (wasConnected && window.spxSfx) window.spxSfx.error();
     }
   });
 
   // Telemetry Updates from Treadmill Engine
-  treadmill.subscribe((snapshot) => {
+  const renderSnapshot = (snapshot) => {
     hudSpeed.textContent = snapshot.currentSpeed.toFixed(1);
     hudTime.textContent = snapshot.formattedTime;
     hudDist.textContent = snapshot.distance;
@@ -188,7 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btnPause.style.display = 'none';
       btnStop.disabled = true;
     }
-  });
+  };
+  treadmill.subscribe(renderSnapshot);
+  // Paint the real initial state (e.g. the 0.3 km/h safety-floor target
+  // speed) immediately on load, instead of waiting for the first change.
+  renderSnapshot(treadmill.getSnapshot());
 
   // Direct Hardware Controls Event Listeners
   // Note: treadmill.js's start/pause/stopSession() already call the real
@@ -220,17 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnSpeedDown.addEventListener('click', async () => {
     treadmill.adjustSpeed(-0.1);
-  });
-
-  // Preset Speed Buttons
-  document.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const speed = parseFloat(btn.getAttribute('data-speed'));
-      if (!isNaN(speed)) {
-        treadmill.setTargetSpeed(speed);
-        showToast(`Target Speed set to ${speed} ${treadmill.unit.toUpperCase()}`);
-      }
-    });
   });
 
   // Unit Switcher

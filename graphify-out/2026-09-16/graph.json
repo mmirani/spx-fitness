@@ -22,11 +22,22 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": "treadmillengine",
       "source_file": "js/treadmill.js",
       "source_location": "L5"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects",
+      "label": "SPXSoundEffects",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "spxsoundeffects",
+      "source_file": "js/sfx.js",
+      "source_location": "L14"
     },
     {
       "id": "js_programs_workoutprogramengine",
@@ -34,7 +45,7 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": "workoutprogramengine",
@@ -47,7 +58,7 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
+      "community": 5,
       "community_name": "SPXChartVisualizer",
       "file_type": "code",
       "norm_label": "spxchartvisualizer",
@@ -63,7 +74,7 @@
       "file_type": "code",
       "norm_label": ".buildsetspeedframe()",
       "source_file": "js/ble.js",
-      "source_location": "L318"
+      "source_location": "L354"
     },
     {
       "id": "js_ble_spxbluetoothdriver_connectgatt",
@@ -74,7 +85,7 @@
       "file_type": "code",
       "norm_label": ".connectgatt()",
       "source_file": "js/ble.js",
-      "source_location": "L167"
+      "source_location": "L203"
     },
     {
       "id": "js_ble_spxbluetoothdriver_constructor",
@@ -96,7 +107,7 @@
       "file_type": "code",
       "norm_label": ".handlenotification()",
       "source_file": "js/ble.js",
-      "source_location": "L353"
+      "source_location": "L389"
     },
     {
       "id": "js_ble_spxbluetoothdriver_log",
@@ -107,7 +118,7 @@
       "file_type": "code",
       "norm_label": ".log()",
       "source_file": "js/ble.js",
-      "source_location": "L97"
+      "source_location": "L98"
     },
     {
       "id": "js_ble_spxbluetoothdriver_notifystatus",
@@ -118,7 +129,7 @@
       "file_type": "code",
       "norm_label": ".notifystatus()",
       "source_file": "js/ble.js",
-      "source_location": "L413"
+      "source_location": "L449"
     },
     {
       "id": "js_ble_spxbluetoothdriver_notifytelemetry",
@@ -129,7 +140,7 @@
       "file_type": "code",
       "norm_label": ".notifytelemetry()",
       "source_file": "js/ble.js",
-      "source_location": "L412"
+      "source_location": "L448"
     },
     {
       "id": "js_ble_spxbluetoothdriver_ondisconnected",
@@ -140,7 +151,7 @@
       "file_type": "code",
       "norm_label": ".ondisconnected()",
       "source_file": "js/ble.js",
-      "source_location": "L402"
+      "source_location": "L438"
     },
     {
       "id": "js_ble_spxbluetoothdriver_pause",
@@ -151,7 +162,7 @@
       "file_type": "code",
       "norm_label": ".pause()",
       "source_file": "js/ble.js",
-      "source_location": "L249"
+      "source_location": "L285"
     },
     {
       "id": "js_ble_spxbluetoothdriver_registerloglistener",
@@ -162,7 +173,7 @@
       "file_type": "code",
       "norm_label": ".registerloglistener()",
       "source_file": "js/ble.js",
-      "source_location": "L102"
+      "source_location": "L103"
     },
     {
       "id": "js_ble_spxbluetoothdriver_registerstatuslistener",
@@ -173,7 +184,7 @@
       "file_type": "code",
       "norm_label": ".registerstatuslistener()",
       "source_file": "js/ble.js",
-      "source_location": "L411"
+      "source_location": "L447"
     },
     {
       "id": "js_ble_spxbluetoothdriver_registertelemetrylistener",
@@ -184,7 +195,7 @@
       "file_type": "code",
       "norm_label": ".registertelemetrylistener()",
       "source_file": "js/ble.js",
-      "source_location": "L410"
+      "source_location": "L446"
     },
     {
       "id": "js_ble_spxbluetoothdriver_requestdevice",
@@ -195,7 +206,7 @@
       "file_type": "code",
       "norm_label": ".requestdevice()",
       "source_file": "js/ble.js",
-      "source_location": "L131"
+      "source_location": "L139"
     },
     {
       "id": "js_ble_spxbluetoothdriver_sendframe",
@@ -206,7 +217,7 @@
       "file_type": "code",
       "norm_label": ".sendframe()",
       "source_file": "js/ble.js",
-      "source_location": "L109"
+      "source_location": "L110"
     },
     {
       "id": "js_ble_spxbluetoothdriver_settargetspeed",
@@ -217,7 +228,7 @@
       "file_type": "code",
       "norm_label": ".settargetspeed()",
       "source_file": "js/ble.js",
-      "source_location": "L335"
+      "source_location": "L371"
     },
     {
       "id": "js_ble_spxbluetoothdriver_speedchecksumbytes",
@@ -228,7 +239,7 @@
       "file_type": "code",
       "norm_label": "._speedchecksumbytes()",
       "source_file": "js/ble.js",
-      "source_location": "L300"
+      "source_location": "L336"
     },
     {
       "id": "js_ble_spxbluetoothdriver_start",
@@ -239,7 +250,7 @@
       "file_type": "code",
       "norm_label": ".start()",
       "source_file": "js/ble.js",
-      "source_location": "L240"
+      "source_location": "L276"
     },
     {
       "id": "js_ble_spxbluetoothdriver_startheartbeat",
@@ -250,7 +261,7 @@
       "file_type": "code",
       "norm_label": "._startheartbeat()",
       "source_file": "js/ble.js",
-      "source_location": "L223"
+      "source_location": "L259"
     },
     {
       "id": "js_ble_spxbluetoothdriver_stop",
@@ -261,7 +272,7 @@
       "file_type": "code",
       "norm_label": ".stop()",
       "source_file": "js/ble.js",
-      "source_location": "L258"
+      "source_location": "L294"
     },
     {
       "id": "js_ble_spxbluetoothdriver_stopheartbeat",
@@ -272,7 +283,7 @@
       "file_type": "code",
       "norm_label": "._stopheartbeat()",
       "source_file": "js/ble.js",
-      "source_location": "L230"
+      "source_location": "L266"
     },
     {
       "id": "js_ble_spxbluetoothdriver_stuffbyte",
@@ -283,7 +294,18 @@
       "file_type": "code",
       "norm_label": "._stuffbyte()",
       "source_file": "js/ble.js",
-      "source_location": "L311"
+      "source_location": "L347"
+    },
+    {
+      "id": "js_ble_spxbluetoothdriver_tryautoreconnect",
+      "label": ".tryAutoReconnect()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": ".tryautoreconnect()",
+      "source_file": "js/ble.js",
+      "source_location": "L181"
     },
     {
       "id": "js_treadmill_treadmillengine_adjustspeed",
@@ -291,11 +313,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".adjustspeed()",
       "source_file": "js/treadmill.js",
-      "source_location": "L84"
+      "source_location": "L115"
     },
     {
       "id": "js_treadmill_treadmillengine_calculatepace",
@@ -303,11 +324,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".calculatepace()",
       "source_file": "js/treadmill.js",
-      "source_location": "L203"
+      "source_location": "L245"
     },
     {
       "id": "js_treadmill_treadmillengine_clearinterval",
@@ -315,11 +335,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".clearinterval()",
       "source_file": "js/treadmill.js",
-      "source_location": "L182"
+      "source_location": "L224"
     },
     {
       "id": "js_treadmill_treadmillengine_constructor",
@@ -327,11 +346,21 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "js/treadmill.js",
       "source_location": "L6"
+    },
+    {
+      "id": "js_treadmill_treadmillengine_displaytokmh",
+      "label": "._displayToKmh()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "._displaytokmh()",
+      "source_file": "js/treadmill.js",
+      "source_location": "L77"
     },
     {
       "id": "js_treadmill_treadmillengine_formattime",
@@ -339,11 +368,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".formattime()",
       "source_file": "js/treadmill.js",
-      "source_location": "L189"
+      "source_location": "L231"
     },
     {
       "id": "js_treadmill_treadmillengine_getformatteddistance",
@@ -351,11 +379,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".getformatteddistance()",
       "source_file": "js/treadmill.js",
-      "source_location": "L195"
+      "source_location": "L237"
     },
     {
       "id": "js_treadmill_treadmillengine_getsnapshot",
@@ -363,11 +390,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".getsnapshot()",
       "source_file": "js/treadmill.js",
-      "source_location": "L46"
+      "source_location": "L57"
     },
     {
       "id": "js_treadmill_treadmillengine_init",
@@ -375,11 +401,21 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".init()",
       "source_file": "js/treadmill.js",
-      "source_location": "L28"
+      "source_location": "L34"
+    },
+    {
+      "id": "js_treadmill_treadmillengine_kmhtodisplay",
+      "label": "._kmhToDisplay()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "norm_label": "._kmhtodisplay()",
+      "source_file": "js/treadmill.js",
+      "source_location": "L72"
     },
     {
       "id": "js_treadmill_treadmillengine_notify",
@@ -387,11 +423,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".notify()",
       "source_file": "js/treadmill.js",
-      "source_location": "L41"
+      "source_location": "L52"
     },
     {
       "id": "js_treadmill_treadmillengine_pausesession",
@@ -399,11 +434,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".pausesession()",
       "source_file": "js/treadmill.js",
-      "source_location": "L119"
+      "source_location": "L157"
     },
     {
       "id": "js_treadmill_treadmillengine_playbeep",
@@ -411,11 +445,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".playbeep()",
       "source_file": "js/treadmill.js",
-      "source_location": "L211"
+      "source_location": "L253"
     },
     {
       "id": "js_treadmill_treadmillengine_settargetspeed",
@@ -423,11 +456,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".settargetspeed()",
       "source_file": "js/treadmill.js",
-      "source_location": "L69"
+      "source_location": "L94"
     },
     {
       "id": "js_treadmill_treadmillengine_setunit",
@@ -435,11 +467,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".setunit()",
       "source_file": "js/treadmill.js",
-      "source_location": "L61"
+      "source_location": "L81"
     },
     {
       "id": "js_treadmill_treadmillengine_startsession",
@@ -447,11 +478,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".startsession()",
       "source_file": "js/treadmill.js",
-      "source_location": "L88"
+      "source_location": "L119"
     },
     {
       "id": "js_treadmill_treadmillengine_starttimer",
@@ -459,11 +489,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".starttimer()",
       "source_file": "js/treadmill.js",
-      "source_location": "L146"
+      "source_location": "L188"
     },
     {
       "id": "js_treadmill_treadmillengine_stopsession",
@@ -471,11 +500,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".stopsession()",
       "source_file": "js/treadmill.js",
-      "source_location": "L130"
+      "source_location": "L170"
     },
     {
       "id": "js_treadmill_treadmillengine_subscribe",
@@ -483,18 +511,127 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": ".subscribe()",
       "source_file": "js/treadmill.js",
-      "source_location": "L37"
+      "source_location": "L48"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_click",
+      "label": ".click()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".click()",
+      "source_file": "js/sfx.js",
+      "source_location": "L90"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "js/sfx.js",
+      "source_location": "L15"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_ctx",
+      "label": "._ctx()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "._ctx()",
+      "source_file": "js/sfx.js",
+      "source_location": "L20"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_error",
+      "label": ".error()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".error()",
+      "source_file": "js/sfx.js",
+      "source_location": "L73"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_milestone",
+      "label": ".milestone()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".milestone()",
+      "source_file": "js/sfx.js",
+      "source_location": "L101"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_speeddown",
+      "label": ".speedDown()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".speeddown()",
+      "source_file": "js/sfx.js",
+      "source_location": "L85"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_speedup",
+      "label": ".speedUp()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".speedup()",
+      "source_file": "js/sfx.js",
+      "source_location": "L79"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_stopped",
+      "label": ".stopped()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".stopped()",
+      "source_file": "js/sfx.js",
+      "source_location": "L95"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_success",
+      "label": ".success()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": ".success()",
+      "source_file": "js/sfx.js",
+      "source_location": "L65"
+    },
+    {
+      "id": "js_sfx_spxsoundeffects_tone",
+      "label": "._tone()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "._tone()",
+      "source_file": "js/sfx.js",
+      "source_location": "L32"
     },
     {
       "id": "js_programs_workoutprogramengine_constructor",
       "label": ".constructor()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".constructor()",
@@ -506,7 +643,7 @@
       "label": ".executeCurrentSegment()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".executecurrentsegment()",
@@ -518,7 +655,7 @@
       "label": ".finishProgram()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".finishprogram()",
@@ -530,7 +667,7 @@
       "label": ".getPrograms()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".getprograms()",
@@ -542,7 +679,7 @@
       "label": ".notifySegmentChange()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".notifysegmentchange()",
@@ -554,7 +691,7 @@
       "label": ".onSegmentChange()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".onsegmentchange()",
@@ -566,7 +703,7 @@
       "label": ".selectProgram()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".selectprogram()",
@@ -578,7 +715,7 @@
       "label": ".startProgram()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".startprogram()",
@@ -590,7 +727,7 @@
       "label": ".stopProgram()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": ".stopprogram()",
@@ -602,7 +739,7 @@
       "label": ".addPoint()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
+      "community": 5,
       "community_name": "SPXChartVisualizer",
       "file_type": "code",
       "norm_label": ".addpoint()",
@@ -614,7 +751,7 @@
       "label": ".clear()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
+      "community": 5,
       "community_name": "SPXChartVisualizer",
       "file_type": "code",
       "norm_label": ".clear()",
@@ -626,7 +763,7 @@
       "label": ".constructor()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
+      "community": 5,
       "community_name": "SPXChartVisualizer",
       "file_type": "code",
       "norm_label": ".constructor()",
@@ -638,7 +775,7 @@
       "label": ".render()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
+      "community": 5,
       "community_name": "SPXChartVisualizer",
       "file_type": "code",
       "norm_label": ".render()",
@@ -650,7 +787,7 @@
       "label": "main()",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "community_name": "sniff_spx.py",
       "file_type": "code",
       "norm_label": "main()",
@@ -662,7 +799,7 @@
       "label": "rx()",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "community_name": "sniff_spx.py",
       "file_type": "code",
       "norm_label": "rx()",
@@ -674,7 +811,7 @@
       "label": "ts()",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "community_name": "sniff_spx.py",
       "file_type": "code",
       "norm_label": "ts()",
@@ -686,7 +823,7 @@
       "label": "tx()",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "community_name": "sniff_spx.py",
       "file_type": "code",
       "norm_label": "tx()",
@@ -698,55 +835,52 @@
       "label": "loadHistoryTable()",
       "_callable": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app.js",
+      "community": 7,
       "file_type": "code",
       "norm_label": "loadhistorytable()",
       "source_file": "js/app.js",
-      "source_location": "L303"
+      "source_location": "L276"
     },
     {
       "id": "js_app_renderprogramcards",
       "label": "renderProgramCards()",
       "_callable": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app.js",
+      "community": 7,
       "file_type": "code",
       "norm_label": "renderprogramcards()",
       "source_file": "js/app.js",
-      "source_location": "L258"
+      "source_location": "L231"
     },
     {
       "id": "js_app_saveworkouttohistory",
       "label": "saveWorkoutToHistory()",
       "_callable": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app.js",
+      "community": 7,
       "file_type": "code",
       "norm_label": "saveworkouttohistory()",
       "source_file": "js/app.js",
-      "source_location": "L290"
+      "source_location": "L263"
     },
     {
       "id": "js_app_showtoast",
       "label": "showToast()",
       "_callable": true,
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app.js",
+      "community": 7,
       "file_type": "code",
       "norm_label": "showtoast()",
       "source_file": "js/app.js",
-      "source_location": "L324"
+      "source_location": "L297"
     },
     {
       "id": "tools_ble_capture_derive_checksum_predict",
       "label": "predict()",
       "_callable": true,
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
+      "community_name": "derive_checksum.py",
       "file_type": "code",
       "norm_label": "predict()",
       "source_file": "tools/ble_capture/derive_checksum.py",
@@ -757,7 +891,8 @@
       "label": "solve_bit()",
       "_callable": true,
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
+      "community_name": "derive_checksum.py",
       "file_type": "code",
       "norm_label": "solve_bit()",
       "source_file": "tools/ble_capture/derive_checksum.py",
@@ -768,7 +903,8 @@
       "label": "unstuff()",
       "_callable": true,
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
+      "community_name": "derive_checksum.py",
       "file_type": "code",
       "norm_label": "unstuff()",
       "source_file": "tools/ble_capture/derive_checksum.py",
@@ -779,7 +915,8 @@
       "label": "xorb()",
       "_callable": true,
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
+      "community_name": "derive_checksum.py",
       "file_type": "code",
       "norm_label": "xorb()",
       "source_file": "tools/ble_capture/derive_checksum.py",
@@ -790,7 +927,7 @@
       "label": "hci_event_name()",
       "_callable": true,
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "community_name": "parse_btsnoop.py",
       "file_type": "code",
       "norm_label": "hci_event_name()",
@@ -802,7 +939,7 @@
       "label": "main()",
       "_callable": true,
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "community_name": "parse_btsnoop.py",
       "file_type": "code",
       "norm_label": "main()",
@@ -814,7 +951,7 @@
       "label": "parse_btsnoop()",
       "_callable": true,
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "community_name": "parse_btsnoop.py",
       "file_type": "code",
       "norm_label": "parse_btsnoop()",
@@ -846,17 +983,46 @@
       "label": "treadmill.js",
       "_origin": "ast",
       "community": 1,
-      "community_name": "TreadmillEngine",
       "file_type": "code",
       "norm_label": "treadmill.js",
       "source_file": "js/treadmill.js",
       "source_location": "L1"
     },
     {
+      "id": "tools_capture_runner",
+      "label": "capture_runner.sh",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "capture_runner.sh",
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "capture_runner.sh",
+      "source_file": "tools/capture_runner.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_capture_runner_sh__entry",
+      "label": "capture_runner.sh script",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "capture_runner.sh",
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "capture_runner.sh script",
+      "source_file": "tools/capture_runner.sh",
+      "source_location": "L1"
+    },
+    {
       "id": "tools_capture_spx_ble",
       "label": "capture_spx_ble.sh",
       "_origin": "ast",
-      "community": 10,
+      "community": 11,
       "community_name": "capture_spx_ble.sh",
       "file_type": "code",
       "metadata": {
@@ -871,7 +1037,7 @@
       "id": "tools_capture_spx_ble_sh__entry",
       "label": "capture_spx_ble.sh script",
       "_origin": "ast",
-      "community": 10,
+      "community": 11,
       "community_name": "capture_spx_ble.sh",
       "file_type": "code",
       "metadata": {
@@ -1051,10 +1217,20 @@
       "source_location": "L100"
     },
     {
+      "id": "js_sfx",
+      "label": "sfx.js",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "sfx.js",
+      "source_file": "js/sfx.js",
+      "source_location": "L1"
+    },
+    {
       "id": "js_programs",
       "label": "programs.js",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "community_name": "WorkoutProgramEngine",
       "file_type": "code",
       "norm_label": "programs.js",
@@ -1065,7 +1241,7 @@
       "id": "js_charts",
       "label": "charts.js",
       "_origin": "ast",
-      "community": 4,
+      "community": 5,
       "community_name": "SPXChartVisualizer",
       "file_type": "code",
       "norm_label": "charts.js",
@@ -1076,7 +1252,7 @@
       "id": "tools_sniff_spx",
       "label": "sniff_spx.py",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "community_name": "sniff_spx.py",
       "file_type": "code",
       "norm_label": "sniff_spx.py",
@@ -1087,7 +1263,7 @@
       "id": "tools_sniff_spx_rationale_2",
       "label": "SPERAX_RM01 BLE Handshake Probe ================================ Focuses on\u2026",
       "_origin": "ast",
-      "community": 5,
+      "community": 6,
       "community_name": "sniff_spx.py",
       "file_type": "rationale",
       "norm_label": "sperax_rm01 ble handshake probe ================================ focuses on...",
@@ -1098,8 +1274,7 @@
       "id": "js_app",
       "label": "app.js",
       "_origin": "ast",
-      "community": 6,
-      "community_name": "app.js",
+      "community": 7,
       "file_type": "code",
       "norm_label": "app.js",
       "source_file": "js/app.js",
@@ -1109,7 +1284,8 @@
       "id": "tools_ble_capture_derive_checksum",
       "label": "derive_checksum.py",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
+      "community_name": "derive_checksum.py",
       "file_type": "code",
       "norm_label": "derive_checksum.py",
       "source_file": "tools/ble_capture/derive_checksum.py",
@@ -1119,7 +1295,7 @@
       "id": "tools_ble_capture_parse_btsnoop",
       "label": "parse_btsnoop.py",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "community_name": "parse_btsnoop.py",
       "file_type": "code",
       "norm_label": "parse_btsnoop.py",
@@ -1130,42 +1306,12 @@
       "id": "tools_ble_capture_parse_btsnoop_rationale_2",
       "label": "Minimal btsnoop HCI log parser focused on extracting BLE ATT layer Write\u2026",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "community_name": "parse_btsnoop.py",
       "file_type": "rationale",
       "norm_label": "minimal btsnoop hci log parser focused on extracting ble att layer write...",
       "source_file": "tools/ble_capture/parse_btsnoop.py",
       "source_location": "L2"
-    },
-    {
-      "id": "tools_capture_runner",
-      "label": "capture_runner.sh",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "capture_runner.sh",
-      "file_type": "code",
-      "metadata": {
-        "language": "bash",
-        "kind": "file"
-      },
-      "norm_label": "capture_runner.sh",
-      "source_file": "tools/capture_runner.sh",
-      "source_location": "L1"
-    },
-    {
-      "id": "tools_capture_runner_sh__entry",
-      "label": "capture_runner.sh script",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "capture_runner.sh",
-      "file_type": "code",
-      "metadata": {
-        "language": "bash",
-        "kind": "bash_entrypoint"
-      },
-      "norm_label": "capture_runner.sh script",
-      "source_file": "tools/capture_runner.sh",
-      "source_location": "L1"
     }
   ],
   "links": [
@@ -1178,19 +1324,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/app.js",
-      "source_location": "L282",
-      "weight": 1.0
-    },
-    {
-      "source": "js_ble_spxbluetoothdriver_buildsetspeedframe",
-      "target": "js_ble_spxbluetoothdriver_speedchecksumbytes",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "js/ble.js",
-      "source_location": "L320",
+      "source_location": "L255",
       "weight": 1.0
     },
     {
@@ -1202,7 +1336,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L170",
+      "source_location": "L206",
       "weight": 1.0
     },
     {
@@ -1214,7 +1348,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L202",
+      "source_location": "L238",
       "weight": 1.0
     },
     {
@@ -1226,7 +1360,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L210",
+      "source_location": "L246",
       "weight": 1.0
     },
     {
@@ -1238,7 +1372,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L359",
+      "source_location": "L395",
       "weight": 1.0
     },
     {
@@ -1250,7 +1384,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L365",
+      "source_location": "L401",
       "weight": 1.0
     },
     {
@@ -1262,7 +1396,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L370",
+      "source_location": "L406",
       "weight": 1.0
     },
     {
@@ -1274,7 +1408,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L388",
+      "source_location": "L424",
       "weight": 1.0
     },
     {
@@ -1286,7 +1420,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L404",
+      "source_location": "L440",
       "weight": 1.0
     },
     {
@@ -1298,7 +1432,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L406",
+      "source_location": "L442",
       "weight": 1.0
     },
     {
@@ -1310,7 +1444,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L407",
+      "source_location": "L443",
       "weight": 1.0
     },
     {
@@ -1322,7 +1456,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L251",
+      "source_location": "L287",
       "weight": 1.0
     },
     {
@@ -1334,7 +1468,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L252",
+      "source_location": "L288",
       "weight": 1.0
     },
     {
@@ -1346,7 +1480,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L140",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
@@ -1358,7 +1492,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L152",
+      "source_location": "L160",
       "weight": 1.0
     },
     {
@@ -1370,7 +1504,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L153",
+      "source_location": "L161",
       "weight": 1.0
     },
     {
@@ -1382,7 +1516,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L112",
+      "source_location": "L113",
       "weight": 1.0
     },
     {
@@ -1394,19 +1528,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L340",
-      "weight": 1.0
-    },
-    {
-      "source": "js_ble_spxbluetoothdriver_settargetspeed",
-      "target": "js_ble_spxbluetoothdriver_buildsetspeedframe",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "js/ble.js",
-      "source_location": "L346",
+      "source_location": "L376",
       "weight": 1.0
     },
     {
@@ -1418,7 +1540,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L347",
+      "source_location": "L383",
       "weight": 1.0
     },
     {
@@ -1430,7 +1552,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L242",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -1442,7 +1564,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L243",
+      "source_location": "L279",
       "weight": 1.0
     },
     {
@@ -1454,7 +1576,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L226",
+      "source_location": "L262",
       "weight": 1.0
     },
     {
@@ -1466,7 +1588,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L260",
+      "source_location": "L296",
       "weight": 1.0
     },
     {
@@ -1478,7 +1600,43 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/ble.js",
-      "source_location": "L261",
+      "source_location": "L297",
+      "weight": 1.0
+    },
+    {
+      "source": "js_ble_spxbluetoothdriver_tryautoreconnect",
+      "target": "js_ble_spxbluetoothdriver_log",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/ble.js",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "js_ble_spxbluetoothdriver_tryautoreconnect",
+      "target": "js_ble_spxbluetoothdriver_ondisconnected",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/ble.js",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "js_ble_spxbluetoothdriver_tryautoreconnect",
+      "target": "js_ble_spxbluetoothdriver_connectgatt",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/ble.js",
+      "source_location": "L193",
       "weight": 1.0
     },
     {
@@ -1554,6 +1712,102 @@
       "weight": 1.0
     },
     {
+      "source": "js_sfx_spxsoundeffects_click",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects_error",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects_milestone",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects_speeddown",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects_speedup",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects_stopped",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects_success",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects_tone",
+      "target": "js_sfx_spxsoundeffects_ctx",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/sfx.js",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
       "source": "js_treadmill_treadmillengine_adjustspeed",
       "target": "js_treadmill_treadmillengine_settargetspeed",
       "relation": "calls",
@@ -1562,7 +1816,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L85",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_constructor",
+      "target": "js_treadmill_treadmillengine_kmhtodisplay",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -1574,7 +1840,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L53",
+      "source_location": "L64",
       "weight": 1.0
     },
     {
@@ -1586,7 +1852,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L54",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -1598,7 +1864,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L57",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_init",
+      "target": "js_treadmill_treadmillengine_kmhtodisplay",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -1610,7 +1888,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L42",
+      "source_location": "L53",
       "weight": 1.0
     },
     {
@@ -1622,19 +1900,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L122",
-      "weight": 1.0
-    },
-    {
-      "source": "js_treadmill_treadmillengine_pausesession",
-      "target": "js_treadmill_treadmillengine_playbeep",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "js/treadmill.js",
-      "source_location": "L123",
+      "source_location": "L160",
       "weight": 1.0
     },
     {
@@ -1646,19 +1912,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L127",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
       "source": "js_treadmill_treadmillengine_settargetspeed",
-      "target": "js_treadmill_treadmillengine_playbeep",
+      "target": "js_treadmill_treadmillengine_displaytokmh",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L75",
+      "source_location": "L107",
       "weight": 1.0
     },
     {
@@ -1670,7 +1936,43 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L81",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_settargetspeed",
+      "target": "js_treadmill_treadmillengine_kmhtodisplay",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_setunit",
+      "target": "js_treadmill_treadmillengine_displaytokmh",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_setunit",
+      "target": "js_treadmill_treadmillengine_kmhtodisplay",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -1682,7 +1984,55 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L65",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_startsession",
+      "target": "js_treadmill_treadmillengine_notify",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_startsession",
+      "target": "js_treadmill_treadmillengine_playbeep",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_startsession",
+      "target": "js_treadmill_treadmillengine_kmhtodisplay",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine_startsession",
+      "target": "js_treadmill_treadmillengine_displaytokmh",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "js/treadmill.js",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -1694,7 +2044,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L111",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -1706,31 +2056,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L115",
-      "weight": 1.0
-    },
-    {
-      "source": "js_treadmill_treadmillengine_startsession",
-      "target": "js_treadmill_treadmillengine_notify",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "js/treadmill.js",
-      "source_location": "L94",
-      "weight": 1.0
-    },
-    {
-      "source": "js_treadmill_treadmillengine_startsession",
-      "target": "js_treadmill_treadmillengine_playbeep",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "js/treadmill.js",
-      "source_location": "L97",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -1742,7 +2068,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L147",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -1754,7 +2080,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L177",
+      "source_location": "L219",
       "weight": 1.0
     },
     {
@@ -1766,19 +2092,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L133",
-      "weight": 1.0
-    },
-    {
-      "source": "js_treadmill_treadmillengine_stopsession",
-      "target": "js_treadmill_treadmillengine_playbeep",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "js/treadmill.js",
-      "source_location": "L135",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -1790,7 +2104,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L141",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -1802,7 +2116,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "js/treadmill.js",
-      "source_location": "L142",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -1897,7 +2211,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/app.js",
-      "source_location": "L258",
+      "source_location": "L231",
       "weight": 1.0
     },
     {
@@ -1908,7 +2222,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/app.js",
-      "source_location": "L290",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -1919,7 +2233,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/app.js",
-      "source_location": "L303",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -1930,7 +2244,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/app.js",
-      "source_location": "L324",
+      "source_location": "L297",
       "weight": 1.0
     },
     {
@@ -1964,6 +2278,17 @@
       "confidence_score": 1.0,
       "source_file": "js/programs.js",
       "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx",
+      "target": "js_sfx_spxsoundeffects",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -2271,7 +2596,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L102",
+      "source_location": "L103",
       "weight": 1.0
     },
     {
@@ -2282,7 +2607,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L109",
+      "source_location": "L110",
       "weight": 1.0
     },
     {
@@ -2293,7 +2618,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L131",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "js_ble_spxbluetoothdriver",
+      "target": "js_ble_spxbluetoothdriver_tryautoreconnect",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/ble.js",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -2304,7 +2640,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L167",
+      "source_location": "L203",
       "weight": 1.0
     },
     {
@@ -2315,7 +2651,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L223",
+      "source_location": "L259",
       "weight": 1.0
     },
     {
@@ -2326,7 +2662,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L230",
+      "source_location": "L266",
       "weight": 1.0
     },
     {
@@ -2337,7 +2673,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L240",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -2348,7 +2684,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L249",
+      "source_location": "L285",
       "weight": 1.0
     },
     {
@@ -2359,7 +2695,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L258",
+      "source_location": "L294",
       "weight": 1.0
     },
     {
@@ -2370,7 +2706,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L300",
+      "source_location": "L336",
       "weight": 1.0
     },
     {
@@ -2381,7 +2717,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L311",
+      "source_location": "L347",
       "weight": 1.0
     },
     {
@@ -2392,7 +2728,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L318",
+      "source_location": "L354",
       "weight": 1.0
     },
     {
@@ -2403,7 +2739,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L335",
+      "source_location": "L371",
       "weight": 1.0
     },
     {
@@ -2414,7 +2750,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L353",
+      "source_location": "L389",
       "weight": 1.0
     },
     {
@@ -2425,7 +2761,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L402",
+      "source_location": "L438",
       "weight": 1.0
     },
     {
@@ -2436,7 +2772,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L410",
+      "source_location": "L446",
       "weight": 1.0
     },
     {
@@ -2447,7 +2783,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L411",
+      "source_location": "L447",
       "weight": 1.0
     },
     {
@@ -2458,7 +2794,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L412",
+      "source_location": "L448",
       "weight": 1.0
     },
     {
@@ -2469,7 +2805,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L413",
+      "source_location": "L449",
       "weight": 1.0
     },
     {
@@ -2491,7 +2827,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/ble.js",
-      "source_location": "L97",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -2638,8 +2974,129 @@
       "weight": 1.0
     },
     {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_milestone",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_constructor",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_ctx",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_tone",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_success",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_error",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_speedup",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_speeddown",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_click",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "js_sfx_spxsoundeffects",
+      "target": "js_sfx_spxsoundeffects_stopped",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/sfx.js",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
       "source": "js_treadmill_treadmillengine",
-      "target": "js_treadmill_treadmillengine_pausesession",
+      "target": "js_treadmill_treadmillengine_adjustspeed",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/treadmill.js",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine",
+      "target": "js_treadmill_treadmillengine_startsession",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -2650,13 +3107,24 @@
     },
     {
       "source": "js_treadmill_treadmillengine",
+      "target": "js_treadmill_treadmillengine_pausesession",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/treadmill.js",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine",
       "target": "js_treadmill_treadmillengine_stopsession",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L130",
+      "source_location": "L170",
       "weight": 1.0
     },
     {
@@ -2667,7 +3135,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L146",
+      "source_location": "L188",
       "weight": 1.0
     },
     {
@@ -2678,7 +3146,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L182",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -2689,7 +3157,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L189",
+      "source_location": "L231",
       "weight": 1.0
     },
     {
@@ -2700,7 +3168,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L195",
+      "source_location": "L237",
       "weight": 1.0
     },
     {
@@ -2711,7 +3179,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L203",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -2722,7 +3190,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L211",
+      "source_location": "L253",
       "weight": 1.0
     },
     {
@@ -2733,7 +3201,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L28",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -2744,7 +3212,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L37",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -2755,7 +3223,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L41",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -2766,7 +3234,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L46",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -2782,13 +3250,35 @@
     },
     {
       "source": "js_treadmill_treadmillengine",
+      "target": "js_treadmill_treadmillengine_kmhtodisplay",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/treadmill.js",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine",
+      "target": "js_treadmill_treadmillengine_displaytokmh",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "js/treadmill.js",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "js_treadmill_treadmillengine",
       "target": "js_treadmill_treadmillengine_setunit",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L61",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -2799,29 +3289,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "js/treadmill.js",
-      "source_location": "L69",
-      "weight": 1.0
-    },
-    {
-      "source": "js_treadmill_treadmillengine",
-      "target": "js_treadmill_treadmillengine_adjustspeed",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "js/treadmill.js",
-      "source_location": "L84",
-      "weight": 1.0
-    },
-    {
-      "source": "js_treadmill_treadmillengine",
-      "target": "js_treadmill_treadmillengine_startsession",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "js/treadmill.js",
-      "source_location": "L88",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -2870,5 +3338,6 @@
       "weight": 1.0
     }
   ],
-  "hyperedges": []
+  "hyperedges": [],
+  "built_at_commit": "84873159ac89aeee77898d3856dc29d4977ac8ae"
 }

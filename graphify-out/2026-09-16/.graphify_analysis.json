@@ -24,7 +24,8 @@
       "js_ble_spxbluetoothdriver_startheartbeat",
       "js_ble_spxbluetoothdriver_stop",
       "js_ble_spxbluetoothdriver_stopheartbeat",
-      "js_ble_spxbluetoothdriver_stuffbyte"
+      "js_ble_spxbluetoothdriver_stuffbyte",
+      "js_ble_spxbluetoothdriver_tryautoreconnect"
     ],
     "1": [
       "js_treadmill",
@@ -33,10 +34,12 @@
       "js_treadmill_treadmillengine_calculatepace",
       "js_treadmill_treadmillengine_clearinterval",
       "js_treadmill_treadmillengine_constructor",
+      "js_treadmill_treadmillengine_displaytokmh",
       "js_treadmill_treadmillengine_formattime",
       "js_treadmill_treadmillengine_getformatteddistance",
       "js_treadmill_treadmillengine_getsnapshot",
       "js_treadmill_treadmillengine_init",
+      "js_treadmill_treadmillengine_kmhtodisplay",
       "js_treadmill_treadmillengine_notify",
       "js_treadmill_treadmillengine_pausesession",
       "js_treadmill_treadmillengine_playbeep",
@@ -64,6 +67,20 @@
       "project_context_ui_layout_index_html_tabs"
     ],
     "3": [
+      "js_sfx",
+      "js_sfx_spxsoundeffects",
+      "js_sfx_spxsoundeffects_click",
+      "js_sfx_spxsoundeffects_constructor",
+      "js_sfx_spxsoundeffects_ctx",
+      "js_sfx_spxsoundeffects_error",
+      "js_sfx_spxsoundeffects_milestone",
+      "js_sfx_spxsoundeffects_speeddown",
+      "js_sfx_spxsoundeffects_speedup",
+      "js_sfx_spxsoundeffects_stopped",
+      "js_sfx_spxsoundeffects_success",
+      "js_sfx_spxsoundeffects_tone"
+    ],
+    "4": [
       "js_programs",
       "js_programs_workoutprogramengine",
       "js_programs_workoutprogramengine_constructor",
@@ -76,7 +93,7 @@
       "js_programs_workoutprogramengine_startprogram",
       "js_programs_workoutprogramengine_stopprogram"
     ],
-    "4": [
+    "5": [
       "js_charts",
       "js_charts_spxchartvisualizer",
       "js_charts_spxchartvisualizer_addpoint",
@@ -84,7 +101,7 @@
       "js_charts_spxchartvisualizer_constructor",
       "js_charts_spxchartvisualizer_render"
     ],
-    "5": [
+    "6": [
       "tools_sniff_spx",
       "tools_sniff_spx_main",
       "tools_sniff_spx_rationale_2",
@@ -92,59 +109,65 @@
       "tools_sniff_spx_ts",
       "tools_sniff_spx_tx"
     ],
-    "6": [
+    "7": [
       "js_app",
       "js_app_loadhistorytable",
       "js_app_renderprogramcards",
       "js_app_saveworkouttohistory",
       "js_app_showtoast"
     ],
-    "7": [
+    "8": [
       "tools_ble_capture_derive_checksum",
       "tools_ble_capture_derive_checksum_predict",
       "tools_ble_capture_derive_checksum_solve_bit",
       "tools_ble_capture_derive_checksum_unstuff",
       "tools_ble_capture_derive_checksum_xorb"
     ],
-    "8": [
+    "9": [
       "tools_ble_capture_parse_btsnoop",
       "tools_ble_capture_parse_btsnoop_hci_event_name",
       "tools_ble_capture_parse_btsnoop_main",
       "tools_ble_capture_parse_btsnoop_parse_btsnoop",
       "tools_ble_capture_parse_btsnoop_rationale_2"
     ],
-    "9": [
+    "10": [
       "tools_capture_runner",
       "tools_capture_runner_sh__entry"
     ],
-    "10": [
+    "11": [
       "tools_capture_spx_ble",
       "tools_capture_spx_ble_sh__entry"
     ]
   },
   "cohesion": {
-    "0": 0.17391304347826086,
-    "1": 0.22807017543859648,
+    "0": 0.16666666666666666,
+    "1": 0.21904761904761905,
     "2": 0.14285714285714285,
-    "3": 0.2545454545454545,
-    "4": 0.4666666666666667,
-    "5": 0.6666666666666666,
-    "6": 0.5,
-    "7": 0.6,
-    "8": 0.5,
-    "9": 1.0,
-    "10": 1.0
+    "3": 0.2878787878787879,
+    "4": 0.2545454545454545,
+    "5": 0.4666666666666667,
+    "6": 0.6666666666666666,
+    "7": 0.5,
+    "8": 0.6,
+    "9": 0.5,
+    "10": 1.0,
+    "11": 1.0
   },
   "gods": [
     {
       "id": "js_ble_spxbluetoothdriver",
       "label": "SPXBluetoothDriver",
-      "degree": 22
+      "degree": 23
     },
     {
       "id": "js_treadmill_treadmillengine",
       "label": "TreadmillEngine",
-      "degree": 18
+      "degree": 20
+    },
+    {
+      "id": "js_sfx_spxsoundeffects",
+      "label": "SPXSoundEffects",
+      "degree": 11
     },
     {
       "id": "js_programs_workoutprogramengine",
@@ -179,11 +202,6 @@
     {
       "id": "tools_sniff_spx_rx",
       "label": "rx()",
-      "degree": 3
-    },
-    {
-      "id": "tools_sniff_spx_tx",
-      "label": "tx()",
       "degree": 3
     }
   ],

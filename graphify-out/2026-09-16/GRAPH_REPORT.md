@@ -4,7 +4,7 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 97 nodes · 146 edges · 11 communities (3 shown, 8 thin omitted)
+- 99 nodes · 149 edges · 11 communities (4 shown, 7 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
@@ -16,8 +16,8 @@
 - SPXChartVisualizer
 - sniff_spx.py
 - app.js
-- parse_btsnoop.py
 - derive_checksum.py
+- parse_btsnoop.py
 - capture_runner.sh
 - capture_spx_ble.sh
 
@@ -39,7 +39,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (11 total, 8 thin omitted)
+## Communities (11 total, 7 thin omitted)
 
 ### Community 2 - "SPX Fitness — Walking Pad Controller"
 Cohesion: 0.14
@@ -49,14 +49,18 @@ Nodes (13): Architecture, Constraints, File Map, Hardware — SPERAX_RM01, js/ap
 Cohesion: 0.67
 Nodes (5): main(), SPERAX_RM01 BLE Handshake Probe ================================ Focuses on…, rx(), ts(), tx()
 
-### Community 7 - "parse_btsnoop.py"
+### Community 7 - "derive_checksum.py"
+Cohesion: 0.60
+Nodes (3): predict(), solve_bit(), xorb()
+
+### Community 8 - "parse_btsnoop.py"
 Cohesion: 0.50
 Nodes (3): main(), parse_btsnoop(), Minimal btsnoop HCI log parser focused on extracting BLE ATT layer Write…
 
 ## Knowledge Gaps
 - **12 isolated node(s):** `capture_spx_ble.sh script`, `Constraints`, `File Map`, `js/app.js`, `js/ble.js — SPXBluetoothDriver (window.spxBleDriver)` (+7 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 38 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 39 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_

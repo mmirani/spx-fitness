@@ -73,6 +73,7 @@ class SPXBluetoothDriver {
   static TARGET_SERVICE  = '0000fff0-0000-1000-8000-00805f9b34fb';
   static WRITE_CHAR      = '0000fff2-0000-1000-8000-00805f9b34fb';
   static NOTIFY_CHAR     = '0000fff1-0000-1000-8000-00805f9b34fb';
+  static DEVICE_NAME_PREFIX = 'SPERAX';
 
   // ── Confirmed real frames (captured from official app's BLE traffic) ──
   static FRAME = {
@@ -126,7 +127,14 @@ class SPXBluetoothDriver {
   }
 
   /**
-   * Request device pairing
+   * Request device pairing, filtered to just this pad (by name prefix) so
+   * the picker doesn't show every nearby Bluetooth device.
+   *
+   * Note: Web Bluetooth's security model requires a user gesture + a native
+   * picker dialog the *first* time a page connects to a new device — a page
+   * can never silently connect to a device it has never been granted
+   * permission for. Once permission has been granted, tryAutoReconnect()
+   * below can reconnect with zero dialogs on future page loads.
    */
   async requestDevice() {
     if (!navigator.bluetooth) {
@@ -141,7 +149,7 @@ class SPXBluetoothDriver {
 
     try {
       this.device = await navigator.bluetooth.requestDevice({
-        acceptAllDevices: true,
+        filters: [{ namePrefix: SPXBluetoothDriver.DEVICE_NAME_PREFIX }],
         optionalServices: [
           SPXBluetoothDriver.TARGET_SERVICE,
           '0000180a-0000-1000-8000-00805f9b34fb'
@@ -158,6 +166,34 @@ class SPXBluetoothDriver {
       }
       this.log(`Error: ${err.message || err}`, "error");
       throw err;
+    }
+  }
+
+  /**
+   * Silently reconnect to a previously-permitted pad with NO picker dialog,
+   * using the Web Bluetooth "getDevices" persistent-permissions API (Chrome/
+   * Edge only, behind no flag as of recent versions). This only works for a
+   * device the user has already granted access to at least once via
+   * requestDevice() on this browser profile — Web Bluetooth's security model
+   * never allows a page to discover/connect to a device it has never been
+   * granted permission for without a user gesture + picker.
+   */
+  async tryAutoReconnect() {
+    if (this.isConnected || this.isSimulating) return false;
+    if (!navigator.bluetooth || !navigator.bluetooth.getDevices) return false;
+
+    try {
+      const known = await navigator.bluetooth.getDevices();
+      const match = known.find(d => (d.name || '').startsWith(SPXBluetoothDriver.DEVICE_NAME_PREFIX));
+      if (!match) return false;
+
+      this.log(`Found previously-paired device "${match.name}" — reconnecting silently...`);
+      this.device = match;
+      this.device.addEventListener('gattserverdisconnected', () => this.onDisconnected());
+      return await this.connectGATT();
+    } catch (err) {
+      this.log(`Auto-reconnect skipped: ${err.message || err}`, "warn");
+      return false;
     }
   }
 
