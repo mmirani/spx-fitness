@@ -4,7 +4,7 @@
 
 class TreadmillEngine {
   constructor() {
-    this.unit = 'mph'; // 'mph' or 'kmh'
+    this.unit = 'kmh'; // 'mph' or 'kmh'
     this.userWeightKg = 70; // Default user weight for calorie estimation
 
     this.state = 'STOPPED'; // 'STOPPED', 'COUNTDOWN', 'RUNNING', 'PAUSED'

@@ -35,6 +35,15 @@
 
     <!-- Header Actions -->
     <div class="header-actions">
+      <div class="user-switcher">
+        <span class="user-avatar" id="user-avatar">M</span>
+        <select id="user-select" aria-label="Active user">
+          <option value="Mansur">Mansur</option>
+          <option value="Sonia">Sonia</option>
+          <option value="Rehaan">Rehaan</option>
+          <option value="Amaya">Amaya</option>
+        </select>
+      </div>
       <div class="connection-pill">
         <span class="status-dot" id="status-dot"></span>
         <span id="status-text">Disconnected</span>
@@ -57,8 +66,8 @@
             <div class="card-title">
               <span>Speed</span>
               <div class="unit-toggle">
-                <button class="unit-btn active" id="unit-mph">MPH</button>
-                <button class="unit-btn" id="unit-kmh">KM/H</button>
+                <button class="unit-btn" id="unit-mph">MPH</button>
+                <button class="unit-btn active" id="unit-kmh">KM/H</button>
               </div>
             </div>
 
@@ -75,7 +84,7 @@
             <div class="control-panel" id="control-panel-inner">
               <div class="speed-hero">
                 <span class="speed-hero-val" id="hud-speed">0.0</span>
-                <span class="speed-hero-unit" id="speed-unit-label">mph</span>
+                <span class="speed-hero-unit" id="speed-unit-label">km/h</span>
               </div>
               <div class="speed-target-row">
                 <span class="speed-target-label">Target</span>
@@ -155,7 +164,10 @@
     <!-- TAB 3: HISTORY -->
     <section class="tab-content" id="tab-history">
       <div class="card">
-        <div class="card-title">Workout History Log</div>
+        <div class="card-title">
+          <span>Workout History Log</span>
+          <span class="history-user-label" id="history-user-label">Mansur</span>
+        </div>
         <div class="history-table-container">
           <table class="history-table">
             <thead>

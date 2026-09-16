@@ -2,11 +2,49 @@
  * Mirani Walking Pad - Main Application Controller
  */
 
+const SPX_USERS = ['Mansur', 'Sonia', 'Rehaan', 'Amaya'];
+
+function getCurrentUser() {
+  const saved = localStorage.getItem('spx_current_user');
+  return SPX_USERS.includes(saved) ? saved : SPX_USERS[0];
+}
+
+function setCurrentUser(name) {
+  if (!SPX_USERS.includes(name)) return;
+  localStorage.setItem('spx_current_user', name);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const treadmill = window.spxTreadmill;
   const bleDriver = window.spxBleDriver;
 
   let speedChart = null;
+
+  // One-time migration: history saved before per-user tracking existed
+  // becomes Mansur's history, rather than silently disappearing.
+  const legacyHistory = localStorage.getItem('spx_history');
+  if (legacyHistory && !localStorage.getItem('spx_history_Mansur')) {
+    localStorage.setItem('spx_history_Mansur', legacyHistory);
+  }
+  if (legacyHistory) localStorage.removeItem('spx_history');
+
+  // User Switcher
+  const userSelect = document.getElementById('user-select');
+  const userAvatar = document.getElementById('user-avatar');
+  const historyUserLabel = document.getElementById('history-user-label');
+
+  const applyUser = (name) => {
+    setCurrentUser(name);
+    if (userSelect) userSelect.value = name;
+    if (userAvatar) userAvatar.textContent = name.charAt(0);
+    if (historyUserLabel) historyUserLabel.textContent = name;
+    loadHistoryTable();
+  };
+
+  if (userSelect) {
+    userSelect.addEventListener('change', () => applyUser(userSelect.value));
+  }
+  applyUser(getCurrentUser());
 
   // UI Element References
   const connectBtn = document.getElementById('connect-btn');
@@ -211,15 +249,27 @@ document.addEventListener('DOMContentLoaded', () => {
     unitMphBtn.classList.add('active');
     unitKmhBtn.classList.remove('active');
     treadmill.setUnit('mph');
-    speedUnitLabel.textContent = 'MPH';
+    speedUnitLabel.textContent = 'mph';
   });
 
   unitKmhBtn.addEventListener('click', () => {
     unitKmhBtn.classList.add('active');
     unitMphBtn.classList.remove('active');
     treadmill.setUnit('kmh');
-    speedUnitLabel.textContent = 'KM/H';
+    speedUnitLabel.textContent = 'km/h';
   });
+
+  // Reflect the treadmill's actual unit (default km/h, or whatever was
+  // saved) in the toggle buttons and label on load.
+  if (treadmill.unit === 'mph') {
+    unitMphBtn.classList.add('active');
+    unitKmhBtn.classList.remove('active');
+    speedUnitLabel.textContent = 'mph';
+  } else {
+    unitKmhBtn.classList.add('active');
+    unitMphBtn.classList.remove('active');
+    speedUnitLabel.textContent = 'km/h';
+  }
 
   // Render Workout Programs Cards
   renderProgramCards();
@@ -261,7 +311,8 @@ function renderProgramCards() {
 }
 
 function saveWorkoutToHistory(summary) {
-  const history = JSON.parse(localStorage.getItem('spx_history') || '[]');
+  const key = `spx_history_${getCurrentUser()}`;
+  const history = JSON.parse(localStorage.getItem(key) || '[]');
   history.unshift({
     date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
     duration: summary.formattedTime,
@@ -270,14 +321,14 @@ function saveWorkoutToHistory(summary) {
     steps: summary.steps,
     avgSpeed: summary.currentSpeed.toFixed(1) + ' ' + summary.unit
   });
-  localStorage.setItem('spx_history', JSON.stringify(history.slice(0, 50)));
+  localStorage.setItem(key, JSON.stringify(history.slice(0, 50)));
 }
 
 function loadHistoryTable() {
   const tbody = document.getElementById('history-tbody');
   if (!tbody) return;
 
-  const history = JSON.parse(localStorage.getItem('spx_history') || '[]');
+  const history = JSON.parse(localStorage.getItem(`spx_history_${getCurrentUser()}`) || '[]');
   if (history.length === 0) {
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted); padding: 2rem;">No workouts recorded yet. Start walking!</td></tr>`;
     return;
