@@ -1,0 +1,195 @@
+{
+  "communities": {
+    "0": [
+      "js_ble",
+      "js_ble_rationale_47",
+      "js_ble_spxbluetoothdriver",
+      "js_ble_spxbluetoothdriver_buildsetspeedframe",
+      "js_ble_spxbluetoothdriver_connectgatt",
+      "js_ble_spxbluetoothdriver_constructor",
+      "js_ble_spxbluetoothdriver_handlenotification",
+      "js_ble_spxbluetoothdriver_log",
+      "js_ble_spxbluetoothdriver_notifystatus",
+      "js_ble_spxbluetoothdriver_notifytelemetry",
+      "js_ble_spxbluetoothdriver_ondisconnected",
+      "js_ble_spxbluetoothdriver_pause",
+      "js_ble_spxbluetoothdriver_registerloglistener",
+      "js_ble_spxbluetoothdriver_registerstatuslistener",
+      "js_ble_spxbluetoothdriver_registertelemetrylistener",
+      "js_ble_spxbluetoothdriver_requestdevice",
+      "js_ble_spxbluetoothdriver_sendframe",
+      "js_ble_spxbluetoothdriver_settargetspeed",
+      "js_ble_spxbluetoothdriver_speedchecksumbytes",
+      "js_ble_spxbluetoothdriver_start",
+      "js_ble_spxbluetoothdriver_startheartbeat",
+      "js_ble_spxbluetoothdriver_stop",
+      "js_ble_spxbluetoothdriver_stopheartbeat",
+      "js_ble_spxbluetoothdriver_stuffbyte"
+    ],
+    "1": [
+      "js_treadmill",
+      "js_treadmill_treadmillengine",
+      "js_treadmill_treadmillengine_adjustspeed",
+      "js_treadmill_treadmillengine_calculatepace",
+      "js_treadmill_treadmillengine_clearinterval",
+      "js_treadmill_treadmillengine_constructor",
+      "js_treadmill_treadmillengine_formattime",
+      "js_treadmill_treadmillengine_getformatteddistance",
+      "js_treadmill_treadmillengine_getsnapshot",
+      "js_treadmill_treadmillengine_init",
+      "js_treadmill_treadmillengine_notify",
+      "js_treadmill_treadmillengine_pausesession",
+      "js_treadmill_treadmillengine_playbeep",
+      "js_treadmill_treadmillengine_settargetspeed",
+      "js_treadmill_treadmillengine_setunit",
+      "js_treadmill_treadmillengine_startsession",
+      "js_treadmill_treadmillengine_starttimer",
+      "js_treadmill_treadmillengine_stopsession",
+      "js_treadmill_treadmillengine_subscribe"
+    ],
+    "2": [
+      "project_context",
+      "project_context_architecture",
+      "project_context_constraints",
+      "project_context_file_map",
+      "project_context_hardware_sperax_rm01",
+      "project_context_js_app_js",
+      "project_context_js_ble_js_spxbluetoothdriver_window_spxbledriver",
+      "project_context_js_charts_js_speedchart",
+      "project_context_js_programs_js_programengine_window_spxprograms",
+      "project_context_js_treadmill_js_treadmillengine_window_spxtreadmill",
+      "project_context_protocol_under_reverse_engineering",
+      "project_context_session_log",
+      "project_context_spx_fitness_walking_pad_controller",
+      "project_context_ui_layout_index_html_tabs"
+    ],
+    "3": [
+      "js_programs",
+      "js_programs_workoutprogramengine",
+      "js_programs_workoutprogramengine_constructor",
+      "js_programs_workoutprogramengine_executecurrentsegment",
+      "js_programs_workoutprogramengine_finishprogram",
+      "js_programs_workoutprogramengine_getprograms",
+      "js_programs_workoutprogramengine_notifysegmentchange",
+      "js_programs_workoutprogramengine_onsegmentchange",
+      "js_programs_workoutprogramengine_selectprogram",
+      "js_programs_workoutprogramengine_startprogram",
+      "js_programs_workoutprogramengine_stopprogram"
+    ],
+    "4": [
+      "js_charts",
+      "js_charts_spxchartvisualizer",
+      "js_charts_spxchartvisualizer_addpoint",
+      "js_charts_spxchartvisualizer_clear",
+      "js_charts_spxchartvisualizer_constructor",
+      "js_charts_spxchartvisualizer_render"
+    ],
+    "5": [
+      "tools_sniff_spx",
+      "tools_sniff_spx_main",
+      "tools_sniff_spx_rationale_2",
+      "tools_sniff_spx_rx",
+      "tools_sniff_spx_ts",
+      "tools_sniff_spx_tx"
+    ],
+    "6": [
+      "js_app",
+      "js_app_loadhistorytable",
+      "js_app_renderprogramcards",
+      "js_app_saveworkouttohistory",
+      "js_app_showtoast"
+    ],
+    "7": [
+      "tools_ble_capture_derive_checksum",
+      "tools_ble_capture_derive_checksum_predict",
+      "tools_ble_capture_derive_checksum_solve_bit",
+      "tools_ble_capture_derive_checksum_unstuff",
+      "tools_ble_capture_derive_checksum_xorb"
+    ],
+    "8": [
+      "tools_ble_capture_parse_btsnoop",
+      "tools_ble_capture_parse_btsnoop_hci_event_name",
+      "tools_ble_capture_parse_btsnoop_main",
+      "tools_ble_capture_parse_btsnoop_parse_btsnoop",
+      "tools_ble_capture_parse_btsnoop_rationale_2"
+    ],
+    "9": [
+      "tools_capture_runner",
+      "tools_capture_runner_sh__entry"
+    ],
+    "10": [
+      "tools_capture_spx_ble",
+      "tools_capture_spx_ble_sh__entry"
+    ]
+  },
+  "cohesion": {
+    "0": 0.17391304347826086,
+    "1": 0.22807017543859648,
+    "2": 0.14285714285714285,
+    "3": 0.2545454545454545,
+    "4": 0.4666666666666667,
+    "5": 0.6666666666666666,
+    "6": 0.5,
+    "7": 0.6,
+    "8": 0.5,
+    "9": 1.0,
+    "10": 1.0
+  },
+  "gods": [
+    {
+      "id": "js_ble_spxbluetoothdriver",
+      "label": "SPXBluetoothDriver",
+      "degree": 22
+    },
+    {
+      "id": "js_treadmill_treadmillengine",
+      "label": "TreadmillEngine",
+      "degree": 18
+    },
+    {
+      "id": "js_programs_workoutprogramengine",
+      "label": "WorkoutProgramEngine",
+      "degree": 10
+    },
+    {
+      "id": "project_context_spx_fitness_walking_pad_controller",
+      "label": "SPX Fitness \u2014 Walking Pad Controller",
+      "degree": 7
+    },
+    {
+      "id": "project_context_architecture",
+      "label": "Architecture",
+      "degree": 6
+    },
+    {
+      "id": "js_charts_spxchartvisualizer",
+      "label": "SPXChartVisualizer",
+      "degree": 5
+    },
+    {
+      "id": "tools_sniff_spx_main",
+      "label": "main()",
+      "degree": 4
+    },
+    {
+      "id": "tools_sniff_spx_ts",
+      "label": "ts()",
+      "degree": 4
+    },
+    {
+      "id": "tools_sniff_spx_rx",
+      "label": "rx()",
+      "degree": 3
+    },
+    {
+      "id": "tools_sniff_spx_tx",
+      "label": "tx()",
+      "degree": 3
+    }
+  ],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

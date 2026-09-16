@@ -1,0 +1,80 @@
+{
+  "js/app.js": {
+    "mtime": 1789541472.8835866,
+    "seen": 1789541595.6048799,
+    "ast_hash": "8108a6618cdd8bc97d9e272dc402dd59",
+    "semantic_hash": "8108a6618cdd8bc97d9e272dc402dd59"
+  },
+  "js/ble.js": {
+    "mtime": 1789564965.179417,
+    "seen": 1789564994.289537,
+    "ast_hash": "7c72b1cc9dec1e3c4c19e7a0ac3628a4",
+    "semantic_hash": "7c72b1cc9dec1e3c4c19e7a0ac3628a4"
+  },
+  "js/charts.js": {
+    "mtime": 1789519818.4507914,
+    "seen": 1789529539.2408152,
+    "ast_hash": "b79bf6c18e81b90e15911007adeb6509",
+    "semantic_hash": "b79bf6c18e81b90e15911007adeb6509"
+  },
+  "js/programs.js": {
+    "mtime": 1789519816.36876,
+    "seen": 1789529539.240816,
+    "ast_hash": "438e248df6d18a585e52e947f71a8229",
+    "semantic_hash": "438e248df6d18a585e52e947f71a8229"
+  },
+  "js/treadmill.js": {
+    "mtime": 1789541456.555535,
+    "seen": 1789541595.604969,
+    "ast_hash": "e93bc9c3d363503fcf2527b1c8150267",
+    "semantic_hash": "e93bc9c3d363503fcf2527b1c8150267"
+  },
+  "PROJECT_CONTEXT.md": {
+    "mtime": 1789520802.0485382,
+    "seen": 1789520806.271061,
+    "ast_hash": "d3c4de39ae9555c13916efb0aa19ad6d",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1789520322.032676,
+    "seen": 1789520806.271062,
+    "ast_hash": "ee0075192f0a015de19e88ef15dc3cf1",
+    "semantic_hash": ""
+  },
+  "favicon.svg": {
+    "mtime": 1789519927.9470444,
+    "seen": 1789520806.271062,
+    "ast_hash": "9e52f4ed31a1437a5a32e0b8ffa70b32",
+    "semantic_hash": ""
+  },
+  "tools/capture_runner.sh": {
+    "mtime": 1789527304.9540532,
+    "seen": 1789529539.240818,
+    "ast_hash": "734f45b807364ef74e2040ff7969396f",
+    "semantic_hash": "734f45b807364ef74e2040ff7969396f"
+  },
+  "tools/capture_spx_ble.sh": {
+    "mtime": 1789527304.944595,
+    "seen": 1789529539.240818,
+    "ast_hash": "570b88cd3756c669d9f3138ddc9d2724",
+    "semantic_hash": "570b88cd3756c669d9f3138ddc9d2724"
+  },
+  "tools/sniff_spx.py": {
+    "mtime": 1789527621.9096546,
+    "seen": 1789529539.240819,
+    "ast_hash": "84b266ab9100d930b4a31f198ee1327f",
+    "semantic_hash": "84b266ab9100d930b4a31f198ee1327f"
+  },
+  "tools/ble_capture/parse_btsnoop.py": {
+    "mtime": 1789531542.362329,
+    "seen": 1789531545.168136,
+    "ast_hash": "eb08b2a24825d780659e181b6185eddb",
+    "semantic_hash": "eb08b2a24825d780659e181b6185eddb"
+  },
+  "tools/ble_capture/derive_checksum.py": {
+    "mtime": 1789564978.2223918,
+    "seen": 1789564994.2896,
+    "ast_hash": "077b832e9deb7f28086d82048ded3c5b",
+    "semantic_hash": "077b832e9deb7f28086d82048ded3c5b"
+  }
+}
