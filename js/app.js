@@ -225,8 +225,15 @@ document.addEventListener('DOMContentLoaded', () => {
     hudSteps.textContent = snapshot.steps.toLocaleString();
     targetSpeedVal.textContent = snapshot.targetSpeed.toFixed(1);
 
+    // Drive the ambient background's speed-reactive glow/drift (see
+    // .bg-decor and --speed-ratio in style.css) off the real belt speed,
+    // not the target, so it settles back down as the belt actually slows.
+    const speedKmh = treadmill._displayToKmh(snapshot.currentSpeed);
+    const ratio = Math.max(0, Math.min(1, speedKmh / treadmill.MAX_SPEED_KMH));
+    document.documentElement.style.setProperty('--speed-ratio', ratio.toFixed(3));
+
     if (snapshot.state === 'RUNNING') {
-      speedChart.addPoint(snapshot.currentSpeed);
+      speedChart.addPoint(snapshot.currentSpeed, snapshot.targetSpeed);
       btnStart.style.display = 'none';
       btnPause.style.display = 'inline-block';
       btnStop.disabled = false;

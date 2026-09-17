@@ -10,6 +10,13 @@
 </head>
 <body>
 
+  <!-- Decorative speed-reactive background (see .bg-decor in style.css) -->
+  <div class="bg-decor" aria-hidden="true">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-cyan-soft"></div>
+  </div>
+
   <!-- App Header -->
   <header class="app-header">
     <div class="brand">
@@ -68,7 +75,7 @@
         <div class="panel-col">
           <div class="card speed-card">
             <div class="card-title">
-              <span>Speed</span>
+              <span>Walking Control</span>
               <div class="unit-toggle">
                 <button class="unit-btn" id="unit-mph">MPH</button>
                 <button class="unit-btn active" id="unit-kmh">KM/H</button>
@@ -77,10 +84,8 @@
 
             <!-- Connection Banner (hidden when connected) -->
             <div id="connect-banner" class="connect-banner">
-              <div>
-                <div class="connect-banner-title">Not connected</div>
-                <div class="connect-banner-sub">Connect to your walking pad to control the belt</div>
-              </div>
+              <div class="connect-banner-title">Not connected</div>
+              <div class="connect-banner-sub">Mirani Walking Pad &middot; Status: Disconnected</div>
               <button id="btn-connect-dashboard" class="btn-primary btn-connect-inline">Connect</button>
             </div>
 
@@ -142,8 +147,9 @@
 
           <!-- Speed Chart -->
           <div class="card chart-card">
-            <div class="card-title">
-              <span>Speed Over Time</span>
+            <div class="chart-header">
+              <div class="chart-title">Speed Over Time</div>
+              <div class="chart-subtitle">Walking Speed Analysis &middot; Live Session</div>
             </div>
             <div class="chart-container" id="chart-wrapper"></div>
           </div>
