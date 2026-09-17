@@ -1,0 +1,133 @@
+/* Floating Controls — a compact standalone window meant to be opened via
+   window.open() and dragged on top of a real youtube.com tab/window.
+   Reuses every token/class from style.css; this file only makes the
+   walking-control card fill a small popup window edge-to-edge. */
+
+.float-body {
+  min-height: 100vh;
+  padding: 0;
+  align-items: stretch;
+}
+
+.float-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card-solid);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  position: relative;
+  overflow: hidden;
+}
+
+.float-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  opacity: 0.65;
+  z-index: 1;
+}
+
+.float-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.float-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+.float-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary-glow);
+  flex-shrink: 0;
+}
+
+.float-body-inner {
+  flex: 1;
+  padding: 0.9rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+}
+
+.float-body-inner .connect-banner {
+  margin-bottom: 0;
+  padding: 0.8rem 0.75rem;
+}
+
+.float-card .control-panel {
+  gap: 0.7rem;
+}
+
+.float-footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.float-footer-actions .btn-secondary {
+  flex-shrink: 0;
+}
+
+.float-footer-actions .connection-pill {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Same compact-control overrides used by the theater overlay */
+.float-card .speed-hero-val {
+  font-size: 2rem;
+}
+
+.float-card .speed-hero-unit {
+  font-size: 1rem;
+}
+
+.float-card .btn-speed {
+  width: 52px;
+  height: 52px;
+  font-size: 1.35rem;
+}
+
+.float-card .speed-adjust-group {
+  gap: 1.5rem;
+}
+
+.float-card .action-group {
+  max-width: 100%;
+}
+
+.float-card .overlay-hud-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.float-card .hud-tile {
+  padding: 0.75rem 0.4rem;
+}
+
+.float-card .hud-value {
+  font-size: 1.2rem;
+}

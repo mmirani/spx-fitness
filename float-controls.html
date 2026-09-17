@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirani — Floating Controls</title>
+  <meta name="description" content="Compact walking pad controls meant to float in a small window on top of whatever you're watching.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/float-controls.css">
+</head>
+<body class="float-body">
+
+  <!-- Decorative speed-reactive background (see .bg-decor in style.css) -->
+  <div class="bg-decor" aria-hidden="true">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+  </div>
+
+  <div class="float-card">
+    <div class="float-header">
+      <div class="float-header-title">
+        <span class="float-brand-dot" aria-hidden="true"></span>
+        Walking Control
+      </div>
+      <div class="unit-toggle">
+        <button class="unit-btn" id="unit-mph">MPH</button>
+        <button class="unit-btn active" id="unit-kmh">KM/H</button>
+      </div>
+    </div>
+
+    <div class="float-body-inner">
+      <!-- Connection Banner (hidden when connected) -->
+      <div id="connect-banner" class="connect-banner">
+        <div class="connect-banner-title">Not connected</div>
+        <div class="connect-banner-sub">Mirani Walking Pad &middot; Status: Disconnected</div>
+        <button id="btn-connect-dashboard" class="btn-primary btn-connect-inline">Connect</button>
+      </div>
+
+      <!-- Main Speed HUD Panel -->
+      <div class="control-panel" id="control-panel-inner">
+        <div class="speed-hero">
+          <span class="speed-hero-val" id="hud-speed">0.0</span>
+          <span class="speed-hero-unit" id="speed-unit-label">km/h</span>
+        </div>
+        <div class="speed-target-row">
+          <span class="speed-target-label">Target</span>
+          <span class="speed-target-val" id="target-speed-val">0.2</span>
+        </div>
+
+        <div class="speed-adjust-group">
+          <button class="btn-speed" id="btn-speed-down" title="Decrease speed" aria-label="Decrease speed">&minus;</button>
+          <button class="btn-speed" id="btn-speed-up" title="Increase speed" aria-label="Increase speed">+</button>
+        </div>
+
+        <div class="action-group">
+          <button class="btn-action btn-start" id="btn-start" disabled>Start</button>
+          <button class="btn-action btn-pause" id="btn-pause" style="display:none;">Pause</button>
+          <button class="btn-action btn-stop" id="btn-stop" disabled>Stop</button>
+        </div>
+      </div>
+
+      <!-- Compact telemetry row -->
+      <div class="hud-grid overlay-hud-grid">
+        <div class="hud-tile">
+          <div class="hud-label">Steps</div>
+          <div class="hud-value" id="hud-steps">0</div>
+        </div>
+        <div class="hud-tile">
+          <div class="hud-label">Time</div>
+          <div class="hud-value" id="hud-time">00:00</div>
+          <div class="hud-unit">min</div>
+        </div>
+        <div class="hud-tile">
+          <div class="hud-label">Distance</div>
+          <div class="hud-value" id="hud-dist">0.00</div>
+          <div class="hud-unit">mi</div>
+        </div>
+        <div class="hud-tile">
+          <div class="hud-label">Calories</div>
+          <div class="hud-value" id="hud-cal">0</div>
+          <div class="hud-unit">kcal</div>
+        </div>
+      </div>
+
+      <div class="float-footer-actions">
+        <button class="btn-secondary" id="sim-btn">Simulator</button>
+        <div class="connection-pill">
+          <span class="status-dot" id="status-dot"></span>
+          <span id="status-text">Disconnected</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts (same engine as the dashboard — nothing duplicated) -->
+  <script src="js/sfx.js"></script>
+  <script src="js/ble.js"></script>
+  <script src="js/treadmill.js"></script>
+  <script src="js/programs.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
