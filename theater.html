@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirani Walking Pad — Watch + Walk</title>
+  <meta name="description" content="Concept view: watch a video while the walking pad controls float on top as a glass overlay.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theater.css">
+</head>
+<body class="theater-body">
+
+  <!-- Decorative speed-reactive background (see .bg-decor in style.css) -->
+  <div class="bg-decor" aria-hidden="true">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-cyan-soft"></div>
+  </div>
+
+  <!-- Theater Header -->
+  <header class="app-header theater-header">
+    <div class="brand">
+      <a href="index.html" class="back-link" title="Back to Dashboard" aria-label="Back to Dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="brand-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="4.5" r="2.1" fill="currentColor"/>
+          <path d="M9.5 9L11 8l1.3 2.6L16 9.2M8.5 21l2-6.5-2.2-1.8.7-3.7M13.3 10.6l1 2.6-2.4 2 1 5.8M11.5 21l1.8-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Watch + Walk</h1>
+        <span>Concept view</span>
+      </div>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <div class="user-switcher" id="user-switcher">
+        <button class="user-trigger" id="user-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar" data-user="Mansur">M</span>
+          <span class="user-trigger-name" id="user-trigger-name">Mansur</span>
+          <svg class="user-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="user-menu" id="user-menu" role="listbox">
+          <button class="user-option" data-user="Mansur" role="option"><span class="user-avatar" data-user="Mansur">M</span>Mansur</button>
+          <button class="user-option" data-user="Sonia" role="option"><span class="user-avatar" data-user="Sonia">S</span>Sonia</button>
+          <button class="user-option" data-user="Rehaan" role="option"><span class="user-avatar" data-user="Rehaan">R</span>Rehaan</button>
+          <button class="user-option" data-user="Amaya" role="option"><span class="user-avatar" data-user="Amaya">A</span>Amaya</button>
+        </div>
+      </div>
+      <div class="connection-pill">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="status-text">Disconnected</span>
+      </div>
+      <button class="btn-primary" id="connect-btn">Connect</button>
+      <button class="btn-secondary" id="sim-btn">Simulator</button>
+    </div>
+  </header>
+
+  <!-- Theater Stage -->
+  <main class="theater-main">
+
+    <!-- Center: video stage -->
+    <div class="video-stage">
+      <div class="video-frame" id="video-frame">
+        <div class="video-placeholder" id="video-placeholder">
+          <div class="video-placeholder-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg>
+          </div>
+          <div class="video-placeholder-title">Paste a YouTube link to start watching</div>
+          <div class="video-placeholder-sub">Full youtube.com can't be embedded in a page (its own security policy blocks that) — paste a video or playlist link instead and it'll play right here.</div>
+          <form id="video-form" class="video-form">
+            <input id="video-url-input" type="text" inputmode="url" autocomplete="off" placeholder="https://www.youtube.com/watch?v=&hellip;">
+            <button type="submit" class="btn-primary">Load</button>
+          </form>
+        </div>
+      </div>
+      <button class="btn-secondary video-change-btn" id="video-change-btn" style="display:none;">Change video</button>
+    </div>
+
+    <!-- Floating glass overlay: the same walking controls as the dashboard -->
+    <div class="walk-overlay" id="walk-overlay">
+      <div class="walk-overlay-header">
+        <span class="walk-overlay-title">Walking Control</span>
+        <div class="unit-toggle">
+          <button class="unit-btn" id="unit-mph">MPH</button>
+          <button class="unit-btn active" id="unit-kmh">KM/H</button>
+        </div>
+        <button class="overlay-toggle" id="overlay-toggle" title="Collapse" aria-label="Collapse overlay">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <div class="walk-overlay-body" id="walk-overlay-body">
+        <!-- Connection Banner (hidden when connected) -->
+        <div id="connect-banner" class="connect-banner">
+          <div class="connect-banner-title">Not connected</div>
+          <div class="connect-banner-sub">Mirani Walking Pad &middot; Status: Disconnected</div>
+          <button id="btn-connect-dashboard" class="btn-primary btn-connect-inline">Connect</button>
+        </div>
+
+        <!-- Main Speed HUD Panel -->
+        <div class="control-panel" id="control-panel-inner">
+          <div class="speed-hero">
+            <span class="speed-hero-val" id="hud-speed">0.0</span>
+            <span class="speed-hero-unit" id="speed-unit-label">km/h</span>
+          </div>
+          <div class="speed-target-row">
+            <span class="speed-target-label">Target</span>
+            <span class="speed-target-val" id="target-speed-val">0.2</span>
+          </div>
+
+          <div class="speed-adjust-group">
+            <button class="btn-speed" id="btn-speed-down" title="Decrease speed" aria-label="Decrease speed">&minus;</button>
+            <button class="btn-speed" id="btn-speed-up" title="Increase speed" aria-label="Increase speed">+</button>
+          </div>
+
+          <div class="action-group">
+            <button class="btn-action btn-start" id="btn-start" disabled>Start</button>
+            <button class="btn-action btn-pause" id="btn-pause" style="display:none;">Pause</button>
+            <button class="btn-action btn-stop" id="btn-stop" disabled>Stop</button>
+          </div>
+        </div>
+
+        <!-- Compact telemetry row -->
+        <div class="hud-grid overlay-hud-grid">
+          <div class="hud-tile">
+            <div class="hud-label">Steps</div>
+            <div class="hud-value" id="hud-steps">0</div>
+          </div>
+          <div class="hud-tile">
+            <div class="hud-label">Time</div>
+            <div class="hud-value" id="hud-time">00:00</div>
+            <div class="hud-unit">min</div>
+          </div>
+          <div class="hud-tile">
+            <div class="hud-label">Distance</div>
+            <div class="hud-value" id="hud-dist">0.00</div>
+            <div class="hud-unit">mi</div>
+          </div>
+          <div class="hud-tile">
+            <div class="hud-label">Calories</div>
+            <div class="hud-value" id="hud-cal">0</div>
+            <div class="hud-unit">kcal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Scripts (same engine as the dashboard — nothing duplicated) -->
+  <script src="js/sfx.js"></script>
+  <script src="js/ble.js"></script>
+  <script src="js/treadmill.js"></script>
+  <script src="js/programs.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/theater.js"></script>
+
+</body>
+</html>
