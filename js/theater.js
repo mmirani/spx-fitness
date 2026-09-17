@@ -1,20 +1,14 @@
 /**
  * Watch + Walk — launcher page controller.
  *
- * Opens real youtube.com in its own tab (full site, unrestricted — YouTube
- * blocks any site from framing its homepage, so a normal tab is the only
- * way to get the real thing) and a small floating controls window that can
- * be dragged on top of it.
+ * "Open YouTube" is a plain <a target="_blank"> in the HTML — that's the
+ * reliable way to get a real new tab. (window.open() with any feature
+ * string, even just 'noopener', gets treated as a popup request by some
+ * browsers instead of a tab.) This script only handles the one thing that
+ * *should* be a popup: the small floating controls window.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  const openYouTubeBtn = document.getElementById('open-youtube-btn');
   const openControlsBtn = document.getElementById('open-controls-btn');
-
-  if (openYouTubeBtn) {
-    openYouTubeBtn.addEventListener('click', () => {
-      window.open('https://www.youtube.com', '_blank', 'noopener');
-    });
-  }
 
   if (openControlsBtn) {
     openControlsBtn.addEventListener('click', () => {
