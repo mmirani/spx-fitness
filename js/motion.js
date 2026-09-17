@@ -110,7 +110,10 @@
     );
     setInterval(() => {
       const ratio = currentSpeedRatio();
-      pulse.timeScale(0.5 + ratio * 3);
+      // Steeper than a plain 0..1 -> 0.5..3.5 map so the tempo difference
+      // is obvious across the speeds people actually walk at (2-4 km/h,
+      // i.e. ratio ~0.3-0.65), not just near the very top of the range.
+      pulse.timeScale(0.4 + ratio * 4.6);
     }, 300);
   }
 

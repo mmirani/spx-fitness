@@ -228,8 +228,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Drive the ambient background's speed-reactive glow/drift (see
     // .bg-decor and --speed-ratio in style.css) off the real belt speed,
     // not the target, so it settles back down as the belt actually slows.
+    // Forced to 0 outside RUNNING: pauseSession() intentionally leaves
+    // currentSpeed at its pre-pause value (so the HUD still shows the
+    // speed you'll resume at), but the belt itself isn't moving, so the
+    // reactive effects need to reflect that separately rather than
+    // reading currentSpeed directly.
     const speedKmh = treadmill._displayToKmh(snapshot.currentSpeed);
-    const ratio = Math.max(0, Math.min(1, speedKmh / treadmill.MAX_SPEED_KMH));
+    const ratio = snapshot.state === 'RUNNING'
+      ? Math.max(0, Math.min(1, speedKmh / treadmill.MAX_SPEED_KMH))
+      : 0;
     document.documentElement.style.setProperty('--speed-ratio', ratio.toFixed(3));
     // If the controls have been moved into a Picture-in-Picture window
     // (see js/theater.js), that window has its own separate document/root,
