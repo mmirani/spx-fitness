@@ -6,10 +6,10 @@
 :root {
   --bg-dark: #07080d;
   --bg-card: rgba(255, 255, 255, 0.035);
-  --bg-card-solid: rgba(19, 22, 32, 0.62);
-  --bg-tile: rgba(255, 255, 255, 0.035);
-  --border-color: rgba(255, 255, 255, 0.09);
-  --border-color-strong: rgba(255, 255, 255, 0.18);
+  --bg-card-solid: rgba(24, 27, 38, 0.46);
+  --bg-tile: rgba(255, 255, 255, 0.04);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color-strong: rgba(255, 255, 255, 0.2);
 
   --primary: #22e5ff;
   --primary-soft: rgba(34, 229, 255, 0.13);
@@ -27,7 +27,7 @@
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
 
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 20px 45px -20px rgba(0, 0, 0, 0.7);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 20px 45px -20px rgba(0, 0, 0, 0.75), 0 0 32px -18px var(--primary-glow);
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 9px;
@@ -78,22 +78,23 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 12% 0%, rgba(34, 229, 255, 0.07) 0%, transparent 42%),
-    radial-gradient(circle at 90% 8%, rgba(185, 104, 255, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(34, 229, 255, 0.05) 0%, transparent 45%);
+    radial-gradient(circle at 12% 0%, rgba(34, 229, 255, 0.1) 0%, transparent 42%),
+    radial-gradient(circle at 90% 8%, rgba(185, 104, 255, 0.09) 0%, transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(34, 229, 255, 0.07) 0%, transparent 45%),
+    radial-gradient(circle at 75% 60%, rgba(245, 166, 35, 0.05) 0%, transparent 38%);
 }
 
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(85px);
   will-change: transform, opacity;
   animation-name: blobDrift;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  animation-duration: calc(26s - 14s * var(--speed-ratio, 0));
-  opacity: calc(0.3 + 0.28 * var(--speed-ratio, 0));
+  animation-duration: calc(18s - 12s * var(--speed-ratio, 0));
+  opacity: calc(0.4 + 0.35 * var(--speed-ratio, 0));
   transition: opacity 0.6s ease;
 }
 
@@ -127,12 +128,24 @@ body {
   top: 30vh;
   background: radial-gradient(circle, var(--primary) 0%, transparent 72%);
   animation-delay: -12s;
-  opacity: calc(0.16 + 0.16 * var(--speed-ratio, 0));
+  opacity: calc(0.22 + 0.2 * var(--speed-ratio, 0));
+}
+
+.blob-amber {
+  width: 26vw;
+  height: 26vw;
+  max-width: 360px;
+  max-height: 360px;
+  left: 30vw;
+  bottom: -10vh;
+  background: radial-gradient(circle, var(--accent-amber) 0%, transparent 72%);
+  animation-delay: -9s;
+  opacity: calc(0.14 + 0.14 * var(--speed-ratio, 0));
 }
 
 @keyframes blobDrift {
   from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(4%, 5%) scale(calc(1 + 0.08 * var(--speed-ratio, 0))); }
+  to   { transform: translate(5%, 6%) scale(calc(1 + 0.12 * var(--speed-ratio, 0))); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -548,11 +561,41 @@ body {
   transition: opacity 0.25s ease;
 }
 
+.speed-flow-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.speed-hero-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ring that pulses behind the live speed number — cadence (via
+   js/motion.js + GSAP) rises with --speed-ratio, giving a heartbeat-like
+   sense of effort instead of a static number. */
+.pulse-ring {
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 1.5px solid var(--primary);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .speed-hero {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
   line-height: 1;
+  position: relative;
 }
 
 .speed-hero-val {
@@ -749,14 +792,56 @@ body {
   opacity: 0.5;
 }
 
+.hud-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
 .hud-label {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-dim);
   font-weight: 700;
-  margin-bottom: 0.5rem;
   white-space: nowrap;
+}
+
+/* Icon badges — small glowing glass circles used next to stat labels and
+   card titles, matching the reference's icon-forward glass aesthetic. */
+.hud-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hud-icon.icon-cyan {
+  background: var(--primary-soft);
+  color: var(--primary);
+  box-shadow: 0 0 12px -2px var(--primary-glow);
+}
+
+.hud-icon.icon-purple {
+  background: var(--secondary-soft);
+  color: var(--secondary);
+  box-shadow: 0 0 12px -2px var(--secondary-glow);
+}
+
+.hud-icon.icon-amber {
+  background: rgba(245, 166, 35, 0.14);
+  color: var(--accent-amber);
+  box-shadow: 0 0 12px -2px rgba(245, 166, 35, 0.5);
+}
+
+.card-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .hud-value {
