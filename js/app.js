@@ -231,6 +231,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const speedKmh = treadmill._displayToKmh(snapshot.currentSpeed);
     const ratio = Math.max(0, Math.min(1, speedKmh / treadmill.MAX_SPEED_KMH));
     document.documentElement.style.setProperty('--speed-ratio', ratio.toFixed(3));
+    // If the controls have been moved into a Picture-in-Picture window
+    // (see js/theater.js), that window has its own separate document/root,
+    // so the reactive glow needs setting there too.
+    if (window.__spxPipDocument) {
+      window.__spxPipDocument.documentElement.style.setProperty('--speed-ratio', ratio.toFixed(3));
+    }
 
     if (snapshot.state === 'RUNNING') {
       speedChart.addPoint(snapshot.currentSpeed, snapshot.targetSpeed);

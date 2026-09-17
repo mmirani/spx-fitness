@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mirani Walking Pad — Watch + Walk</title>
-  <meta name="description" content="Open real YouTube in its own tab, plus a small floating window with your walking controls to drag on top of it.">
+  <meta name="description" content="Real YouTube in one tab, with a genuinely always-on-top floating window for your walking controls.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/float-controls.css">
   <link rel="stylesheet" href="css/theater.css">
 </head>
 <body class="theater-body">
@@ -42,41 +43,108 @@
     <div class="launcher">
       <div class="launcher-intro">
         <div class="launcher-eyebrow">How this works</div>
-        <h2 class="launcher-title">Real YouTube, full-size &mdash; with your controls floating on top</h2>
-        <p class="launcher-sub">
-          YouTube won't let any site load its full homepage inside a frame &mdash; that's their own
-          security policy. So instead: open YouTube exactly like you normally would, in its own tab,
-          and open a small always-handy control window next to it. Drag the small window on top of
-          the video and walk.
+        <h2 class="launcher-title">One click: real YouTube, plus controls that actually stay on top</h2>
+        <p class="launcher-sub" id="launcher-sub">
+          Browsers require an actual click before a page can open a new window &mdash; that's
+          intentional, to stop sites from popping things up on their own. One click here opens
+          YouTube in its own tab and a small control window that uses Picture-in-Picture, so it
+          floats above every other window &mdash; including YouTube &mdash; automatically, not just
+          the tab it started from.
         </p>
       </div>
 
-      <div class="launcher-steps">
-        <div class="launcher-card">
-          <div class="launcher-step-num">1</div>
-          <div class="launcher-step-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg>
-          </div>
-          <div class="launcher-card-title">Open YouTube</div>
-          <div class="launcher-card-desc">Opens real youtube.com in a new tab &mdash; search, browse, and play exactly as usual.</div>
-          <a class="btn-primary launcher-btn" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">Open YouTube</a>
-        </div>
-
-        <div class="launcher-card">
-          <div class="launcher-step-num">2</div>
-          <div class="launcher-step-icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M9 20h6M12 18v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-          </div>
-          <div class="launcher-card-title">Open Floating Controls</div>
-          <div class="launcher-card-desc">A small window with Speed, Start/Stop, and your live stats &mdash; drag it on top of the video.</div>
-          <button class="btn-primary launcher-btn" id="open-controls-btn">Open Floating Controls</button>
-        </div>
-      </div>
-
-      <div class="launcher-hint">Tip: open both, then drag the small controls window to a corner of the YouTube tab.</div>
+      <button class="btn-primary launcher-btn launcher-main-btn" id="start-btn">Start Watch + Walk</button>
+      <div class="launcher-hint" id="launcher-hint">Your walking controls will float in a small always-on-top window; YouTube opens beside it in a new tab.</div>
     </div>
   </main>
 
+  <!-- Hidden source for the floating controls — moved into the
+       Picture-in-Picture window on click; see js/theater.js -->
+  <div id="pip-source" hidden>
+    <div class="float-card">
+      <div class="float-header">
+        <div class="float-header-title">
+          <span class="float-brand-dot" aria-hidden="true"></span>
+          Walking Control
+        </div>
+        <div class="unit-toggle">
+          <button class="unit-btn" id="unit-mph">MPH</button>
+          <button class="unit-btn active" id="unit-kmh">KM/H</button>
+        </div>
+      </div>
+
+      <div class="float-body-inner">
+        <!-- Connection Banner (hidden when connected) -->
+        <div id="connect-banner" class="connect-banner">
+          <div class="connect-banner-title">Not connected</div>
+          <div class="connect-banner-sub">Mirani Walking Pad &middot; Status: Disconnected</div>
+          <button id="btn-connect-dashboard" class="btn-primary btn-connect-inline">Connect</button>
+        </div>
+
+        <!-- Main Speed HUD Panel -->
+        <div class="control-panel" id="control-panel-inner">
+          <div class="speed-hero">
+            <span class="speed-hero-val" id="hud-speed">0.0</span>
+            <span class="speed-hero-unit" id="speed-unit-label">km/h</span>
+          </div>
+          <div class="speed-target-row">
+            <span class="speed-target-label">Target</span>
+            <span class="speed-target-val" id="target-speed-val">0.2</span>
+          </div>
+
+          <div class="speed-adjust-group">
+            <button class="btn-speed" id="btn-speed-down" title="Decrease speed" aria-label="Decrease speed">&minus;</button>
+            <button class="btn-speed" id="btn-speed-up" title="Increase speed" aria-label="Increase speed">+</button>
+          </div>
+
+          <div class="action-group">
+            <button class="btn-action btn-start" id="btn-start" disabled>Start</button>
+            <button class="btn-action btn-pause" id="btn-pause" style="display:none;">Pause</button>
+            <button class="btn-action btn-stop" id="btn-stop" disabled>Stop</button>
+          </div>
+        </div>
+
+        <!-- Compact telemetry row -->
+        <div class="hud-grid overlay-hud-grid">
+          <div class="hud-tile">
+            <div class="hud-label">Steps</div>
+            <div class="hud-value" id="hud-steps">0</div>
+          </div>
+          <div class="hud-tile">
+            <div class="hud-label">Time</div>
+            <div class="hud-value" id="hud-time">00:00</div>
+            <div class="hud-unit">min</div>
+          </div>
+          <div class="hud-tile">
+            <div class="hud-label">Distance</div>
+            <div class="hud-value" id="hud-dist">0.00</div>
+            <div class="hud-unit">mi</div>
+          </div>
+          <div class="hud-tile">
+            <div class="hud-label">Calories</div>
+            <div class="hud-value" id="hud-cal">0</div>
+            <div class="hud-unit">kcal</div>
+          </div>
+        </div>
+
+        <div class="float-footer-actions">
+          <button class="btn-secondary" id="sim-btn">Simulator</button>
+          <div class="connection-pill">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-text">Disconnected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts (same engine as the dashboard — nothing duplicated) -->
+  <script src="js/sfx.js"></script>
+  <script src="js/ble.js"></script>
+  <script src="js/treadmill.js"></script>
+  <script src="js/programs.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
   <script src="js/theater.js"></script>
 
 </body>
