@@ -17,6 +17,7 @@ class TreadmillEngine {
     this.MIN_SPEED_KMH = 0.3;
     this.MAX_SPEED_KMH = 6.0;
     this.speedStep = 0.1; // step size in the *currently displayed* unit
+    this.STEPS_PER_MILE = 2900; // ~1.8ft stride, ~105 steps/min at 3.5 km/h
 
     this.targetSpeed = this._kmhToDisplay(this.MIN_SPEED_KMH); // start-of-session default
 
@@ -24,6 +25,7 @@ class TreadmillEngine {
     this.totalDistanceMiles = 0.0;
     this.totalCalories = 0.0;
     this.totalSteps = 0;
+    this.stepAccumulator = 0; // fractional steps carried between ticks
 
     this.timerInterval = null;
     this.audioCtx = null;
@@ -134,6 +136,7 @@ class TreadmillEngine {
       this.totalDistanceMiles = 0;
       this.totalCalories = 0;
       this.totalSteps = 0;
+      this.stepAccumulator = 0;
 
       // Safety: every new session always starts at the slow floor speed,
       // regardless of whatever speed was left over from a prior session.
@@ -207,8 +210,20 @@ class TreadmillEngine {
         const milesPerSec = speedMph / 3600.0;
         this.totalDistanceMiles += milesPerSec;
 
-        // Step estimation (Average stride ~ 2,000 steps per mile at walking pace)
-        this.totalSteps += Math.round(milesPerSec * 2100);
+        // Step estimation. Two separate fixes here vs the original formula:
+        // (1) it rounded a sub-1-step-per-second value to a whole number
+        //     EVERY tick instead of accumulating the fraction, which
+        //     silently discarded most of a step each second — e.g. at
+        //     3.5 km/h that alone under-reported real steps by ~21%
+        //     (1.27 true steps/sec rounds down to a flat 1/sec, forever).
+        // (2) 2,100 steps/mile (a ~2.5ft stride) assumes a long stride;
+        //     realistic average walking cadence is closer to 2,900/mile
+        //     (~1.8ft stride, ~105 steps/min at 3.5 km/h) — still an
+        //     estimate, but much closer to what people actually see.
+        this.stepAccumulator += milesPerSec * this.STEPS_PER_MILE;
+        const wholeSteps = Math.floor(this.stepAccumulator);
+        this.totalSteps += wholeSteps;
+        this.stepAccumulator -= wholeSteps;
 
         // Calorie calculation using MET (Metabolic Equivalent of Task) formula
         // Walking 2 mph ~ 2.8 MET, 3 mph ~ 3.3 MET, 4 mph ~ 5.0 MET
