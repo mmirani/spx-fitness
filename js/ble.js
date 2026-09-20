@@ -387,9 +387,13 @@ class SPXBluetoothDriver {
     4: 'Strong Wave',
   };
 
+  static VIBRATE_INTENSITY = 0x01;
+
   /**
    * Start or switch a vibration mode (1–4). Standby only.
-   * Same 0x16 setShakeCtrl shape that already started the pad live.
+   * Official-app setShakeCtrl is [0x16, mode, intensity]. The first live
+   * test sent [0x16, 0x01, N] so every button was mode 1 (Light) at
+   * different intensities — they felt the same. Mode now goes in byte 2.
    */
   async setVibrate(mode) {
     const clamped = Math.max(1, Math.min(4, mode | 0));
@@ -405,7 +409,7 @@ class SPXBluetoothDriver {
     }
 
     const ok = await this.sendFrame(
-      SPXBluetoothDriver.buildCommandFrame([0x16, 0x01, clamped]),
+      SPXBluetoothDriver.buildCommandFrame([0x16, clamped, SPXBluetoothDriver.VIBRATE_INTENSITY]),
       `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[clamped]}`
     );
     if (ok) this.vibrateLevel = clamped;
