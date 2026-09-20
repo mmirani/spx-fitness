@@ -393,50 +393,81 @@ class SPXBluetoothDriver {
     4: 'Intense',
   };
 
+  // Captured WLT6200 frames (P3 Max HCI snoop; CRC-verified).
+  static VIBRATE_FRAME = {
+    0: [0xf5, 0x09, 0x00, 0x16, 0x00, 0x00, 0x34, 0x6d, 0xfa],
+    1: [0xf5, 0x09, 0x00, 0x16, 0x01, 0x01, 0x55, 0xea, 0xfa],
+    2: [0xf5, 0x09, 0x00, 0x16, 0x01, 0x02, 0x49, 0x59, 0xfa],
+    3: [0xf5, 0x09, 0x00, 0x16, 0x01, 0x03, 0xbd, 0x37, 0xfa],
+    4: [0xf5, 0x09, 0x00, 0x16, 0x01, 0x04, 0x3e, 0x79, 0xfa],
+  };
+
   /**
-   * Advance one vibration level (remote: 0→1→2→3→4). The pad ignores
-   * rapid follow-up frames, so callers must wait ~2s between taps.
+   * Reach level 1–4. This pad only applies a new level while already
+   * vibrating and after a few seconds, so we start at 1 then step up.
    */
-  async stepVibrate() {
+  async setVibrate(mode, onStep) {
+    const target = Math.max(1, Math.min(4, mode | 0));
     if (this._beltState === SPXBluetoothDriver.BELT_STATE.RUNNING) {
       this.log('Vibrate blocked: belt is running. Stop walking first.', 'warn');
       return false;
     }
     if (this._vibrateBusy) return false;
-    const next = Math.min(4, (this.vibrateLevel || 0) + 1);
-    if (next === this.vibrateLevel) return true;
 
     if (this.isSimulating) {
-      this.vibrateLevel = next;
-      this.log(`Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[next]} (sim)`, 'success');
+      this.vibrateLevel = target;
+      this.log(`Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[target]} (sim)`, 'success');
       return true;
     }
 
     this._vibrateBusy = true;
+    this._vibrateCancel = false;
+    const wait = (ms) => new Promise(r => setTimeout(r, ms));
+    const pulse = (level) => this.sendFrame(
+      SPXBluetoothDriver.VIBRATE_FRAME[level],
+      `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[level] || 'Off'}`
+    );
+    const mark = (level) => {
+      this.vibrateLevel = level;
+      if (typeof onStep === 'function') onStep(level);
+    };
+
     try {
-      const ok = await this.sendFrame(
-        SPXBluetoothDriver.buildCommandFrame([0x16, 0x01, next]),
-        `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[next]}`
-      );
-      if (ok) this.vibrateLevel = next;
-      return ok;
+      if (this.vibrateLevel > target) {
+        if (!await this.stopVibrate({ cancel: false })) return false;
+        await wait(800);
+      }
+      if (this._vibrateCancel) return false;
+
+      if (this.vibrateLevel === 0) {
+        if (!await pulse(1)) return false;
+        mark(1);
+        if (target === 1) return true;
+        await wait(4500);
+      }
+
+      while (this.vibrateLevel < target) {
+        if (this._vibrateCancel) return false;
+        const next = this.vibrateLevel + 1;
+        if (!await pulse(next)) return false;
+        mark(next);
+        if (this.vibrateLevel < target) await wait(4500);
+      }
+      return !this._vibrateCancel;
     } finally {
       this._vibrateBusy = false;
     }
   }
 
-  async stopVibrate() {
-    this._vibeReadyAt = 0;
+  async stopVibrate(opts = {}) {
+    if (opts.cancel !== false) this._vibrateCancel = true;
     if (this.isSimulating) {
       this.vibrateLevel = 0;
       this.log('Vibrate off (sim)', 'success');
       return true;
     }
 
-    const off = await this.sendFrame(
-      SPXBluetoothDriver.buildCommandFrame([0x16, 0x00, 0x00]),
-      'Vibrate Off'
-    );
+    const off = await this.sendFrame(SPXBluetoothDriver.VIBRATE_FRAME[0], 'Vibrate Off');
     this.vibrateLevel = 0;
     return off;
   }
