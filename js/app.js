@@ -196,13 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const syncVibrateControls = (controlsOn = !!(bleDriver.isConnected || bleDriver.isSimulating)) => {
     const level = bleDriver.vibrateLevel || 0;
     const walking = isWalking();
+    const busy = !!bleDriver._vibrateBusy;
     vibeModeBtns.forEach(btn => {
       const mode = Number(btn.dataset.mode);
-      btn.disabled = !controlsOn || walking;
+      btn.disabled = !controlsOn || walking || busy;
       btn.classList.toggle('active', level === mode);
       btn.setAttribute('aria-pressed', String(level === mode));
     });
-    if (btnVibrateStop) btnVibrateStop.disabled = !controlsOn || walking || level === 0;
+    if (btnVibrateStop) btnVibrateStop.disabled = !controlsOn || walking || busy || level === 0;
     if (btnStop && !walking && treadmill.state === 'STOPPED') {
       btnStop.disabled = level === 0;
     }
@@ -331,9 +332,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (window.spxSfx) window.spxSfx.error();
       return;
     }
-    const ok = await bleDriver.setVibrate(mode);
+    if (bleDriver._vibrateBusy) return;
+    const name = (bleDriver.constructor.VIBRATE_MODES || {})[mode] || `level ${mode}`;
+    if (mode > 1) showToast(`Ramping to ${name}…`);
+    const ok = await bleDriver.setVibrate(mode, () => syncVibrateControls());
     syncVibrateControls();
-    const name = (window.spxBleDriver.constructor.VIBRATE_MODES || {})[mode] || `mode ${mode}`;
     if (!ok) {
       showToast('Vibrate command failed.', 'error');
       if (window.spxSfx) window.spxSfx.error();
