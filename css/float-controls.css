@@ -115,8 +115,14 @@
   gap: 1.5rem;
 }
 
-.float-card .action-group {
+.float-card .action-group,
+.float-card .vibrate-panel {
   max-width: 100%;
+}
+
+.float-card .btn-vibe-mode {
+  font-size: 0.7rem;
+  padding: 0.55rem 0.3rem;
 }
 
 .float-card .btn-action {

@@ -132,13 +132,13 @@
 
     ['hud-speed', 'target-speed-val'].forEach(bounceOnChange);
 
-    document.querySelectorAll('.btn-speed').forEach(btn => {
+    document.querySelectorAll('.btn-speed, .btn-vibe-mode').forEach(btn => {
       btn.addEventListener('click', () => {
         gsap.fromTo(btn, { scale: 0.82 }, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
       });
     });
 
-    ['btn-start', 'btn-pause', 'btn-stop', 'btn-vibrate'].forEach(id => {
+    ['btn-start', 'btn-pause', 'btn-stop', 'btn-vibrate-stop'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
       el.addEventListener('click', () => {

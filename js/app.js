@@ -101,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnStop = document.getElementById('btn-stop');
   const btnSpeedUp = document.getElementById('btn-speed-up');
   const btnSpeedDown = document.getElementById('btn-speed-down');
-  const btnVibrate = document.getElementById('btn-vibrate');
+  const btnVibrateStop = document.getElementById('btn-vibrate-stop');
+  const vibeModeBtns = Array.from(document.querySelectorAll('.btn-vibe-mode'));
 
   // Initialize Speed Chart
   speedChart = new SPXChartVisualizer('chart-wrapper');
@@ -186,17 +187,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (connectBanner) connectBanner.style.display = enabled ? 'none' : 'flex';
     if (btnStart) btnStart.disabled = !enabled;
-    syncVibrateButton(enabled);
+    syncVibrateControls(enabled);
   };
 
-  const syncVibrateButton = (controlsOn = !!(bleDriver.isConnected || bleDriver.isSimulating)) => {
-    if (!btnVibrate) return;
+  const isWalking = () =>
+    treadmill.state === 'RUNNING' || treadmill.state === 'PAUSED' || treadmill.state === 'COUNTDOWN';
+
+  const syncVibrateControls = (controlsOn = !!(bleDriver.isConnected || bleDriver.isSimulating)) => {
     const level = bleDriver.vibrateLevel || 0;
-    const walking = treadmill.state === 'RUNNING' || treadmill.state === 'PAUSED' || treadmill.state === 'COUNTDOWN';
-    btnVibrate.disabled = !controlsOn || walking;
-    btnVibrate.classList.toggle('active', level > 0);
-    btnVibrate.setAttribute('aria-pressed', String(level > 0));
-    btnVibrate.textContent = level > 0 ? `Vibe ${level}` : 'Vibrate';
+    const walking = isWalking();
+    vibeModeBtns.forEach(btn => {
+      const mode = Number(btn.dataset.mode);
+      btn.disabled = !controlsOn || walking;
+      btn.classList.toggle('active', level === mode);
+      btn.setAttribute('aria-pressed', String(level === mode));
+    });
+    if (btnVibrateStop) btnVibrateStop.disabled = !controlsOn || walking || level === 0;
+    if (btnStop && !walking && treadmill.state === 'STOPPED') {
+      btnStop.disabled = level === 0;
+    }
   };
 
   if (connectDashBtn) {
@@ -268,9 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (snapshot.state === 'STOPPED') {
       btnStart.style.display = 'inline-block';
       btnPause.style.display = 'none';
-      btnStop.disabled = true;
+      btnStop.disabled = !(bleDriver.vibrateLevel);
     }
-    syncVibrateButton();
+    syncVibrateControls();
   };
   treadmill.subscribe(renderSnapshot);
   // Paint the real initial state (e.g. the 0.3 km/h safety-floor target
@@ -293,6 +302,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnStop.addEventListener('click', async () => {
+    if (bleDriver.vibrateLevel && !isWalking()) {
+      const ok = await bleDriver.stopVibrate();
+      syncVibrateControls();
+      showToast(ok ? 'Vibrate off.' : 'Vibrate stop failed.', ok ? 'info' : 'error');
+      if (window.spxSfx) ok ? window.spxSfx.click() : window.spxSfx.error();
+      return;
+    }
     const summary = treadmill.stopSession();
     if (summary && summary.elapsedSeconds > 10) {
       saveWorkoutToHistory(summary);
@@ -309,29 +325,34 @@ document.addEventListener('DOMContentLoaded', () => {
     treadmill.adjustSpeed(-0.1);
   });
 
-  if (btnVibrate) {
-    btnVibrate.addEventListener('click', async () => {
-      const walking = treadmill.state === 'RUNNING' || treadmill.state === 'PAUSED' || treadmill.state === 'COUNTDOWN';
-      if (walking) {
-        showToast('Stop walking before using vibrate.', 'error');
-        if (window.spxSfx) window.spxSfx.error();
-        return;
-      }
-      const ok = await bleDriver.cycleVibrate();
-      syncVibrateButton();
-      if (!ok) {
-        showToast('Vibrate command failed.', 'error');
-        if (window.spxSfx) window.spxSfx.error();
-        return;
-      }
-      const level = bleDriver.vibrateLevel;
-      if (level === 0) {
-        showToast('Vibrate off.');
-        if (window.spxSfx) window.spxSfx.click();
-      } else {
-        showToast(`Vibrate level ${level} of 4`);
-        if (window.spxSfx) window.spxSfx.success();
-      }
+  const startVibrateMode = async (mode) => {
+    if (isWalking()) {
+      showToast('Stop walking before using vibrate.', 'error');
+      if (window.spxSfx) window.spxSfx.error();
+      return;
+    }
+    const ok = await bleDriver.setVibrate(mode);
+    syncVibrateControls();
+    const name = (window.spxBleDriver.constructor.VIBRATE_MODES || {})[mode] || `mode ${mode}`;
+    if (!ok) {
+      showToast('Vibrate command failed.', 'error');
+      if (window.spxSfx) window.spxSfx.error();
+      return;
+    }
+    showToast(`Vibrate: ${name}`);
+    if (window.spxSfx) window.spxSfx.success();
+  };
+
+  vibeModeBtns.forEach(btn => {
+    btn.addEventListener('click', () => startVibrateMode(Number(btn.dataset.mode)));
+  });
+
+  if (btnVibrateStop) {
+    btnVibrateStop.addEventListener('click', async () => {
+      const ok = await bleDriver.stopVibrate();
+      syncVibrateControls();
+      showToast(ok ? 'Vibrate off.' : 'Vibrate stop failed.', ok ? 'info' : 'error');
+      if (window.spxSfx) ok ? window.spxSfx.click() : window.spxSfx.error();
     });
   }
 

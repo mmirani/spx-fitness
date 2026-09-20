@@ -57,7 +57,16 @@
           <button class="btn-action btn-start" id="btn-start" disabled>Start</button>
           <button class="btn-action btn-pause" id="btn-pause" style="display:none;">Pause</button>
           <button class="btn-action btn-stop" id="btn-stop" disabled>Stop</button>
-          <button class="btn-action btn-vibrate" id="btn-vibrate" disabled title="Vibration massage — standby only. Click to cycle levels 1–4, then off.">Vibrate</button>
+        </div>
+        <div class="vibrate-panel">
+          <div class="vibrate-label">Vibration</div>
+          <div class="vibrate-modes" id="vibrate-modes">
+            <button type="button" class="btn-vibe-mode" data-mode="1" disabled title="Gentle vibration">Light</button>
+            <button type="button" class="btn-vibe-mode" data-mode="2" disabled title="Stronger vibration">Strong</button>
+            <button type="button" class="btn-vibe-mode" data-mode="3" disabled title="Light vibration with shifting">Light Wave</button>
+            <button type="button" class="btn-vibe-mode" data-mode="4" disabled title="Strong vibration with shifting">Strong Wave</button>
+          </div>
+          <button type="button" class="btn-action btn-vibrate-stop" id="btn-vibrate-stop" disabled>Stop Vibe</button>
         </div>
       </div>
 

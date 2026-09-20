@@ -380,14 +380,19 @@ class SPXBluetoothDriver {
     return await this.sendFrame(frame, `Set Speed ${speedKmh.toFixed(1)} km/h (raw ${raw})`);
   }
 
-  static VIBRATE_MAX_LEVEL = 4;
+  static VIBRATE_MODES = {
+    1: 'Light',
+    2: 'Strong',
+    3: 'Light Wave',
+    4: 'Strong Wave',
+  };
 
   /**
-   * Vibration massage (standby only). level 0 = off, 1–4 = intensity.
-   * Command 0x16 is setShakeCtrl from the official app; live pad test pending.
+   * Start or switch a vibration mode (1–4). Standby only.
+   * Same 0x16 setShakeCtrl shape that already started the pad live.
    */
-  async setVibrate(level) {
-    const clamped = Math.max(0, Math.min(SPXBluetoothDriver.VIBRATE_MAX_LEVEL, level | 0));
+  async setVibrate(mode) {
+    const clamped = Math.max(1, Math.min(4, mode | 0));
     if (this._beltState === SPXBluetoothDriver.BELT_STATE.RUNNING) {
       this.log('Vibrate blocked: belt is running. Stop walking first.', 'warn');
       return false;
@@ -395,27 +400,34 @@ class SPXBluetoothDriver {
 
     if (this.isSimulating) {
       this.vibrateLevel = clamped;
-      this.log(clamped === 0 ? 'Vibrate off (sim)' : `Vibrate L${clamped} (sim)`, 'success');
+      this.log(`Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[clamped]} (sim)`, 'success');
       return true;
     }
 
-    const cmd = clamped === 0 ? [0x16, 0x00, 0x00] : [0x16, 0x01, clamped];
     const ok = await this.sendFrame(
-      SPXBluetoothDriver.buildCommandFrame(cmd),
-      clamped === 0 ? 'Vibrate Off' : `Vibrate L${clamped}`
+      SPXBluetoothDriver.buildCommandFrame([0x16, 0x01, clamped]),
+      `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[clamped]}`
     );
     if (ok) this.vibrateLevel = clamped;
     return ok;
   }
 
-  async cycleVibrate() {
-    const next = this.vibrateLevel >= SPXBluetoothDriver.VIBRATE_MAX_LEVEL ? 0 : this.vibrateLevel + 1;
-    return this.setVibrate(next);
-  }
-
   async stopVibrate() {
-    if (this.vibrateLevel === 0) return true;
-    return this.setVibrate(0);
+    if (this.isSimulating) {
+      this.vibrateLevel = 0;
+      this.log('Vibrate off (sim)', 'success');
+      return true;
+    }
+
+    // Always send off — UI state can lag the pad. 0x16 off first, then the
+    // confirmed belt STOP frame which also halts the vibration motor.
+    const off = await this.sendFrame(
+      SPXBluetoothDriver.buildCommandFrame([0x16, 0x00, 0x00]),
+      'Vibrate Off'
+    );
+    await this.sendFrame(SPXBluetoothDriver.FRAME.STOP, 'Stop (vibrate halt)');
+    this.vibrateLevel = 0;
+    return off;
   }
 
   /**
