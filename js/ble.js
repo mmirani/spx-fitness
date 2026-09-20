@@ -381,19 +381,15 @@ class SPXBluetoothDriver {
   }
 
   static VIBRATE_MODES = {
-    1: 'Light',
-    2: 'Strong',
-    3: 'Light Wave',
-    4: 'Strong Wave',
+    1: 'Gentle',
+    2: 'Moderate',
+    3: 'Strong',
+    4: 'Intense',
   };
 
-  static VIBRATE_INTENSITY = 0x01;
-
   /**
-   * Start or switch a vibration mode (1–4). Standby only.
-   * Official-app setShakeCtrl is [0x16, mode, intensity]. The first live
-   * test sent [0x16, 0x01, N] so every button was mode 1 (Light) at
-   * different intensities — they felt the same. Mode now goes in byte 2.
+   * Vibration levels 1–4. Captured WLT6200 frames (same chip as RM-01):
+   *   on:  [0x16, 0x01, level]   off: [0x16, 0x00, 0x00]
    */
   async setVibrate(mode) {
     const clamped = Math.max(1, Math.min(4, mode | 0));
@@ -409,7 +405,7 @@ class SPXBluetoothDriver {
     }
 
     const ok = await this.sendFrame(
-      SPXBluetoothDriver.buildCommandFrame([0x16, clamped, SPXBluetoothDriver.VIBRATE_INTENSITY]),
+      SPXBluetoothDriver.buildCommandFrame([0x16, 0x01, clamped]),
       `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[clamped]}`
     );
     if (ok) this.vibrateLevel = clamped;
@@ -423,13 +419,10 @@ class SPXBluetoothDriver {
       return true;
     }
 
-    // Always send off — UI state can lag the pad. 0x16 off first, then the
-    // confirmed belt STOP frame which also halts the vibration motor.
     const off = await this.sendFrame(
       SPXBluetoothDriver.buildCommandFrame([0x16, 0x00, 0x00]),
       'Vibrate Off'
     );
-    await this.sendFrame(SPXBluetoothDriver.FRAME.STOP, 'Stop (vibrate halt)');
     this.vibrateLevel = 0;
     return off;
   }
