@@ -800,18 +800,35 @@ body {
   box-shadow: 0 0 20px -6px rgba(255, 107, 203, 0.55);
 }
 
-.btn-vibe-mode:disabled,
+.btn-vibe-mode:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.btn-vibe-mode.active:disabled {
+  opacity: 1;
+}
+
+.btn-vibrate-up:disabled,
 .btn-vibrate-stop:disabled {
   opacity: 0.35;
   cursor: not-allowed;
   box-shadow: none;
 }
 
+.vibrate-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.btn-vibrate-up,
 .btn-vibrate-stop {
   border: 1.5px solid #ff6bcb;
   color: #ff6bcb;
 }
 
+.btn-vibrate-up:hover:not(:disabled),
 .btn-vibrate-stop:hover:not(:disabled) {
   background: #ff6bcb;
   color: #1a0614;

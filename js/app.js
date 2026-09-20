@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSpeedUp = document.getElementById('btn-speed-up');
   const btnSpeedDown = document.getElementById('btn-speed-down');
   const btnVibrateStop = document.getElementById('btn-vibrate-stop');
+  const btnVibrateUp = document.getElementById('btn-vibrate-up');
   const vibeModeBtns = Array.from(document.querySelectorAll('.btn-vibe-mode'));
 
   // Initialize Speed Chart
@@ -197,12 +198,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const level = bleDriver.vibrateLevel || 0;
     const walking = isWalking();
     const busy = !!bleDriver._vibrateBusy;
+    const cooling = Date.now() < (bleDriver._vibeReadyAt || 0);
     vibeModeBtns.forEach(btn => {
       const mode = Number(btn.dataset.mode);
-      btn.disabled = !controlsOn || walking || busy;
+      btn.disabled = true;
       btn.classList.toggle('active', level === mode);
       btn.setAttribute('aria-pressed', String(level === mode));
     });
+    if (btnVibrateUp) btnVibrateUp.disabled = !controlsOn || walking || busy || cooling || level >= 4;
     if (btnVibrateStop) btnVibrateStop.disabled = !controlsOn || walking || busy || level === 0;
     if (btnStop && !walking && treadmill.state === 'STOPPED') {
       btnStop.disabled = level === 0;
@@ -326,29 +329,37 @@ document.addEventListener('DOMContentLoaded', () => {
     treadmill.adjustSpeed(-0.1);
   });
 
-  const startVibrateMode = async (mode) => {
+  const stepVibrateUp = async () => {
     if (isWalking()) {
       showToast('Stop walking before using vibrate.', 'error');
       if (window.spxSfx) window.spxSfx.error();
       return;
     }
     if (bleDriver._vibrateBusy) return;
-    const name = (bleDriver.constructor.VIBRATE_MODES || {})[mode] || `level ${mode}`;
-    if (mode > 1) showToast(`Ramping to ${name}…`);
-    const ok = await bleDriver.setVibrate(mode, () => syncVibrateControls());
+    if (Date.now() < (bleDriver._vibeReadyAt || 0)) {
+      showToast('Wait a second, then tap Stronger again.');
+      return;
+    }
+    if ((bleDriver.vibrateLevel || 0) >= 4) {
+      showToast('Already Intense.');
+      return;
+    }
+    const ok = await bleDriver.stepVibrate();
+    bleDriver._vibeReadyAt = Date.now() + 2200;
     syncVibrateControls();
+    setTimeout(syncVibrateControls, 2300);
     if (!ok) {
       showToast('Vibrate command failed.', 'error');
       if (window.spxSfx) window.spxSfx.error();
       return;
     }
-    showToast(`Vibrate: ${name}`);
+    const level = bleDriver.vibrateLevel;
+    const name = (bleDriver.constructor.VIBRATE_MODES || {})[level] || `level ${level}`;
+    showToast(level < 4 ? `${name} — tap Stronger again to go up` : `Vibrate: ${name}`);
     if (window.spxSfx) window.spxSfx.success();
   };
 
-  vibeModeBtns.forEach(btn => {
-    btn.addEventListener('click', () => startVibrateMode(Number(btn.dataset.mode)));
-  });
+  if (btnVibrateUp) btnVibrateUp.addEventListener('click', () => stepVibrateUp());
 
   if (btnVibrateStop) {
     btnVibrateStop.addEventListener('click', async () => {

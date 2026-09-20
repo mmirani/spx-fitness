@@ -138,7 +138,7 @@
       });
     });
 
-    ['btn-start', 'btn-pause', 'btn-stop', 'btn-vibrate-stop'].forEach(id => {
+    ['btn-start', 'btn-pause', 'btn-stop', 'btn-vibrate-up', 'btn-vibrate-stop'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
       el.addEventListener('click', () => {

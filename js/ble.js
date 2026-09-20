@@ -40,9 +40,8 @@
  *   frame after connect, which appears to be a one-time device info/config
  *   dump (different meaning, do not treat as live telemetry).
  *
- * Vibration (cmd 0x16 setShakeCtrl). From idle the pad starts at level 1
- * and treats later on-frames as “next level,” like the remote. Stop first
- * to go down. Stop: [0x16, 0x00, 0x00]  On: [0x16, 0x01, N] N = 1..4
+ * Vibration (cmd 0x16 setShakeCtrl), like the physical remote: each on-frame
+ * advances one level. Stop: [0x16, 0x00, 0x00]  On: [0x16, 0x01, N] N = 1..4
  */
 
 class SPXBluetoothDriver {
@@ -64,6 +63,7 @@ class SPXBluetoothDriver {
     this._beltState = 0; // last decoded belt state byte
     this.vibrateLevel = 0; // 0 = off, 1–4 = massage level
     this._vibrateBusy = false;
+    this._writeTail = Promise.resolve();
   }
 
   static TARGET_SERVICE  = '0000fff0-0000-1000-8000-00805f9b34fb';
@@ -104,22 +104,27 @@ class SPXBluetoothDriver {
    * Send a raw frame to the confirmed RM01 write characteristic
    */
   async sendFrame(frame, label = 'Frame') {
-    if (this.isSimulating) return true;
-    if (!this.writeChar) {
-      this.log(`Cannot send [${label}]: No write characteristic connected!`, "error");
-      return false;
-    }
-    const bytes = Uint8Array.from(frame);
-    const hex = Array.from(bytes).map(b => '0x' + b.toString(16).padStart(2, '0')).join(' ');
-    this.log(`TX [${label}]: ${hex}`);
-    try {
-      await this.writeChar.writeValueWithoutResponse(bytes);
-      this.log(`  ✓ Sent successfully!`, "success");
-      return true;
-    } catch (err) {
-      this.log(`  ✗ Write failed: ${err.message}`, "error");
-      return false;
-    }
+    const run = async () => {
+      if (this.isSimulating) return true;
+      if (!this.writeChar) {
+        this.log(`Cannot send [${label}]: No write characteristic connected!`, "error");
+        return false;
+      }
+      const bytes = Uint8Array.from(frame);
+      const hex = Array.from(bytes).map(b => '0x' + b.toString(16).padStart(2, '0')).join(' ');
+      this.log(`TX [${label}]: ${hex}`);
+      try {
+        await this.writeChar.writeValueWithoutResponse(bytes);
+        this.log(`  ✓ Sent successfully!`, "success");
+        return true;
+      } catch (err) {
+        this.log(`  ✗ Write failed: ${err.message}`, "error");
+        return false;
+      }
+    };
+    const p = this._writeTail.then(run, run);
+    this._writeTail = p.then(() => {}, () => {});
+    return p;
   }
 
   /**
@@ -389,62 +394,39 @@ class SPXBluetoothDriver {
   };
 
   /**
-   * Reach vibration level 1–4. From idle the pad starts at level 1 and
-   * ignores the level byte; later 0x16 0x01 taps advance (remote behavior).
-   * So we start, then step up with a short gap.
+   * Advance one vibration level (remote: 0→1→2→3→4). The pad ignores
+   * rapid follow-up frames, so callers must wait ~2s between taps.
    */
-  async setVibrate(mode, onStep) {
-    const target = Math.max(1, Math.min(4, mode | 0));
+  async stepVibrate() {
     if (this._beltState === SPXBluetoothDriver.BELT_STATE.RUNNING) {
       this.log('Vibrate blocked: belt is running. Stop walking first.', 'warn');
       return false;
     }
     if (this._vibrateBusy) return false;
-    if (this.vibrateLevel === target && !this.isSimulating) return true;
+    const next = Math.min(4, (this.vibrateLevel || 0) + 1);
+    if (next === this.vibrateLevel) return true;
 
     if (this.isSimulating) {
-      this.vibrateLevel = target;
-      this.log(`Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[target]} (sim)`, 'success');
+      this.vibrateLevel = next;
+      this.log(`Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[next]} (sim)`, 'success');
       return true;
     }
 
     this._vibrateBusy = true;
-    const pulse = (level) => this.sendFrame(
-      SPXBluetoothDriver.buildCommandFrame([0x16, 0x01, level]),
-      `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[level]}`
-    );
-    const wait = (ms) => new Promise(r => setTimeout(r, ms));
-    const mark = (level) => {
-      this.vibrateLevel = level;
-      if (typeof onStep === 'function') onStep(level);
-    };
-
     try {
-      if (this.vibrateLevel > target) {
-        if (!await this.stopVibrate()) return false;
-        await wait(400);
-      }
-
-      if (this.vibrateLevel === 0) {
-        if (!await pulse(1)) return false;
-        mark(1);
-        if (target === 1) return true;
-        await wait(500);
-      }
-
-      while (this.vibrateLevel < target) {
-        const next = this.vibrateLevel + 1;
-        if (!await pulse(next)) return false;
-        mark(next);
-        if (this.vibrateLevel < target) await wait(500);
-      }
-      return true;
+      const ok = await this.sendFrame(
+        SPXBluetoothDriver.buildCommandFrame([0x16, 0x01, next]),
+        `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[next]}`
+      );
+      if (ok) this.vibrateLevel = next;
+      return ok;
     } finally {
       this._vibrateBusy = false;
     }
   }
 
   async stopVibrate() {
+    this._vibeReadyAt = 0;
     if (this.isSimulating) {
       this.vibrateLevel = 0;
       this.log('Vibrate off (sim)', 'success');
