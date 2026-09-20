@@ -334,12 +334,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (bleDriver._vibrateBusy) return;
     const name = (bleDriver.constructor.VIBRATE_MODES || {})[mode] || `level ${mode}`;
-    if (mode > 1) showToast(`Setting ${name}…`);
-    syncVibrateControls();
-    const ok = await bleDriver.setVibrate(mode, () => syncVibrateControls());
+    const ok = await bleDriver.setVibrate(mode);
     syncVibrateControls();
     if (!ok) {
-      if (!bleDriver.vibrateLevel) return;
       showToast('Vibrate command failed.', 'error');
       if (window.spxSfx) window.spxSfx.error();
       return;
