@@ -13,14 +13,10 @@
  * the full raw capture + decode notes). All frames below are byte-for-byte
  * copies of what the official app actually sent/received — NOT guesses.
  *
- * Frame shape:  [0xf5] [TYPE] [0x00] ...payload... [CHECKSUM/CRC, 1-2 bytes] [0xfa]
- *   TYPE is an opcode/class id (NOT reliably the frame length, despite short
- *   command frames happening to have TYPE == byte-length).
- *   The checksum/CRC algorithm is NOT yet reversed (tried 1-byte sum/XOR and
- *   all standard CRC16 variants — none matched across samples; it may be a
- *   session-dependent or table-based CRC). Because of this, only frames that
- *   were literally observed on the wire can be replayed here — arbitrary
- *   speed values cannot yet be encoded. See "TODO: speed control" below.
+ * Frame shape:  [0xf5] [LEN] [0x00] ...payload... [CRC16 LE, stuffed] [0xfa]
+ *   CRC-16: poly 0xA327, init 0xFFFF, over header through payload.
+ *   Bytes whose high nibble is 0xF are stuffed as [0xF0, low nibble]; LEN
+ *   on the wire is then bumped to the stuffed length.
  *
  * Handshake (device -> app on connect):  0x12 0x13 0x14  (3 bytes, fixed)
  * Handshake ACK (app -> device):         0xf5 0x07 0x00 0x01 0x26 0xd8 0xfa
@@ -44,11 +40,9 @@
  *   frame after connect, which appears to be a one-time device info/config
  *   dump (different meaning, do not treat as live telemetry).
  *
- * TODO: speed control — we have not yet captured the app changing target
- * speed via +/- buttons, so the speed-set frame + its checksum are unknown.
- * Capture that sequence (HCI snoop log while tapping speed +/- in the
- * official app) to crack it; until then setTargetSpeed() is a documented
- * no-op against real hardware.
+ * Vibration (cmd 0x16 setShakeCtrl, from official-app Dart; not yet live-tested):
+ *   Stop:  [0x16, 0x00, 0x00]
+ *   Level: [0x16, 0x01, N]  N = 1..4
  */
 
 class SPXBluetoothDriver {
@@ -68,6 +62,7 @@ class SPXBluetoothDriver {
 
     this._heartbeatTimer = null;
     this._beltState = 0; // last decoded belt state byte
+    this.vibrateLevel = 0; // 0 = off, 1–4 = massage level
   }
 
   static TARGET_SERVICE  = '0000fff0-0000-1000-8000-00805f9b34fb';
@@ -297,30 +292,8 @@ class SPXBluetoothDriver {
     return await this.sendFrame(SPXBluetoothDriver.FRAME.STOP, 'Stop Belt');
   }
 
-  // ── SET SPEED checksum (fully reverse-engineered — 2 HCI captures) ──────
-  //
-  // Frame shape: [0xf5] [LEN_LO] [0x00] [0x15] [0x01] [SPEED] [0x00] [CS...] [0xfa]
-  // where SPEED is a raw byte, 0x01 = "run at speed".
-  // (The same [0x15][ACTION][VAL][0x00] shape is used for PAUSE — ACTION=0x02
-  // — and STOP — ACTION=0x00 — which is how START/PAUSE/STOP were found.)
-  //
-  // The 2-byte checksum is a pure GF(2)-linear function of the SPEED byte:
-  // crc(a) XOR crc(b) == L(a XOR b) held exactly across every pair of the
-  // 61 distinct SPEED values captured across two HCI snoop sessions (the
-  // first covered 2-8, confirming bits 0-3; a follow-up capture pushed the
-  // belt through its full range 0x00-0x3c/60, confirming bits 4-5 too — see
-  // tools/ble_capture/decoded_session_2_speed.txt / derive_checksum.py).
-  // Every bit's contribution was solved by XOR-diffing captured frames
-  // against each other (no CRC algorithm/polynomial needed) and verified
-  // to reproduce all 61 real frames byte-for-byte, so this is confirmed
-  // for the entire practical speed range the pad supports (0-6.0 km/h @
-  // this pad's x10 byte encoding — SPEED byte 60 == 6.0 km/h, matching the
-  // pad's real advertised max).
-  //
-  // Byte-stuffing: if a computed checksum byte's high nibble is 0xF (which
-  // would collide with the 0xF5 header / 0xFA trailer), the device splits
-  // it into two bytes: [0xF0, byte & 0x0F]. Confirmed from multiple
-  // captured frames (SPEED 6, 16, 23, 31, 45, 52, 59, 60).
+  // SET SPEED: GF(2)-linear checksum of the SPEED byte (captured 0–60).
+  // Same [0x15][ACTION][VAL][0x00] shape as START/PAUSE/STOP.
   static _SPEED_CS_BASE_VAL = 2;
   static _SPEED_CS_BASE = [0xbe, 0x98];
   static _SPEED_CS_BITS = [
@@ -349,6 +322,30 @@ class SPXBluetoothDriver {
     // to avoid colliding with the 0xF5/0xFA frame delimiters.
     if ((b & 0xf0) === 0xf0) return [0xf0, b & 0x0f];
     return [b];
+  }
+
+  static crc16(data) {
+    let crc = 0xffff;
+    for (const byte of data) {
+      crc ^= byte;
+      for (let i = 0; i < 8; i++) {
+        crc = (crc & 1) ? ((crc >>> 1) ^ 0xa327) : (crc >>> 1);
+      }
+    }
+    return crc & 0xffff;
+  }
+
+  /** Build a framed command with CRC-16 + 0xF nibble stuffing. */
+  static buildCommandFrame(cmdData) {
+    const unstuffedLen = 3 + cmdData.length + 2 + 1;
+    const preCrc = [0xf5, unstuffedLen, 0x00, ...cmdData];
+    const crc = SPXBluetoothDriver.crc16(preCrc);
+    const cs = [
+      ...SPXBluetoothDriver._stuffByte(crc & 0xff),
+      ...SPXBluetoothDriver._stuffByte((crc >>> 8) & 0xff),
+    ];
+    if (cs.length > 2) preCrc[1] = unstuffedLen + (cs.length - 2);
+    return [...preCrc, ...cs, 0xfa];
   }
 
   static buildSetSpeedFrame(speedByte, action = 0x01) {
@@ -381,6 +378,44 @@ class SPXBluetoothDriver {
 
     const frame = SPXBluetoothDriver.buildSetSpeedFrame(raw, 0x01);
     return await this.sendFrame(frame, `Set Speed ${speedKmh.toFixed(1)} km/h (raw ${raw})`);
+  }
+
+  static VIBRATE_MAX_LEVEL = 4;
+
+  /**
+   * Vibration massage (standby only). level 0 = off, 1–4 = intensity.
+   * Command 0x16 is setShakeCtrl from the official app; live pad test pending.
+   */
+  async setVibrate(level) {
+    const clamped = Math.max(0, Math.min(SPXBluetoothDriver.VIBRATE_MAX_LEVEL, level | 0));
+    if (this._beltState === SPXBluetoothDriver.BELT_STATE.RUNNING) {
+      this.log('Vibrate blocked: belt is running. Stop walking first.', 'warn');
+      return false;
+    }
+
+    if (this.isSimulating) {
+      this.vibrateLevel = clamped;
+      this.log(clamped === 0 ? 'Vibrate off (sim)' : `Vibrate L${clamped} (sim)`, 'success');
+      return true;
+    }
+
+    const cmd = clamped === 0 ? [0x16, 0x00, 0x00] : [0x16, 0x01, clamped];
+    const ok = await this.sendFrame(
+      SPXBluetoothDriver.buildCommandFrame(cmd),
+      clamped === 0 ? 'Vibrate Off' : `Vibrate L${clamped}`
+    );
+    if (ok) this.vibrateLevel = clamped;
+    return ok;
+  }
+
+  async cycleVibrate() {
+    const next = this.vibrateLevel >= SPXBluetoothDriver.VIBRATE_MAX_LEVEL ? 0 : this.vibrateLevel + 1;
+    return this.setVibrate(next);
+  }
+
+  async stopVibrate() {
+    if (this.vibrateLevel === 0) return true;
+    return this.setVibrate(0);
   }
 
   /**
@@ -439,6 +474,7 @@ class SPXBluetoothDriver {
     this.isConnected = false;
     this._stopHeartbeat();
     this._beltState = 0;
+    this.vibrateLevel = 0;
     this.log("Device disconnected.", "warn");
     this.notifyStatus('disconnected', null);
   }

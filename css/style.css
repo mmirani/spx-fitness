@@ -692,7 +692,7 @@ body {
   display: flex;
   gap: 0.9rem;
   width: 100%;
-  max-width: 420px;
+  max-width: 520px;
   margin-top: 0.15rem;
 }
 
@@ -750,6 +750,23 @@ body {
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 14px 28px -10px var(--secondary-glow);
+}
+
+.btn-vibrate {
+  border: 1.5px solid #ff6bcb;
+  color: #ff6bcb;
+}
+
+.btn-vibrate:hover:not(:disabled) {
+  background: rgba(255, 107, 203, 0.16);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -10px rgba(255, 107, 203, 0.45);
+}
+
+.btn-vibrate.active {
+  background: #ff6bcb;
+  color: #1a0614;
+  box-shadow: 0 0 24px -6px rgba(255, 107, 203, 0.55);
 }
 
 /* ---------- Telemetry HUD Grid ---------- */

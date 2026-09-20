@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnStop = document.getElementById('btn-stop');
   const btnSpeedUp = document.getElementById('btn-speed-up');
   const btnSpeedDown = document.getElementById('btn-speed-down');
+  const btnVibrate = document.getElementById('btn-vibrate');
 
   // Initialize Speed Chart
   speedChart = new SPXChartVisualizer('chart-wrapper');
@@ -185,6 +186,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (connectBanner) connectBanner.style.display = enabled ? 'none' : 'flex';
     if (btnStart) btnStart.disabled = !enabled;
+    syncVibrateButton(enabled);
+  };
+
+  const syncVibrateButton = (controlsOn = !!(bleDriver.isConnected || bleDriver.isSimulating)) => {
+    if (!btnVibrate) return;
+    const level = bleDriver.vibrateLevel || 0;
+    const walking = treadmill.state === 'RUNNING' || treadmill.state === 'PAUSED' || treadmill.state === 'COUNTDOWN';
+    btnVibrate.disabled = !controlsOn || walking;
+    btnVibrate.classList.toggle('active', level > 0);
+    btnVibrate.setAttribute('aria-pressed', String(level > 0));
+    btnVibrate.textContent = level > 0 ? `Vibe ${level}` : 'Vibrate';
   };
 
   if (connectDashBtn) {
@@ -258,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnPause.style.display = 'none';
       btnStop.disabled = true;
     }
+    syncVibrateButton();
   };
   treadmill.subscribe(renderSnapshot);
   // Paint the real initial state (e.g. the 0.3 km/h safety-floor target
@@ -295,6 +308,32 @@ document.addEventListener('DOMContentLoaded', () => {
   btnSpeedDown.addEventListener('click', async () => {
     treadmill.adjustSpeed(-0.1);
   });
+
+  if (btnVibrate) {
+    btnVibrate.addEventListener('click', async () => {
+      const walking = treadmill.state === 'RUNNING' || treadmill.state === 'PAUSED' || treadmill.state === 'COUNTDOWN';
+      if (walking) {
+        showToast('Stop walking before using vibrate.', 'error');
+        if (window.spxSfx) window.spxSfx.error();
+        return;
+      }
+      const ok = await bleDriver.cycleVibrate();
+      syncVibrateButton();
+      if (!ok) {
+        showToast('Vibrate command failed.', 'error');
+        if (window.spxSfx) window.spxSfx.error();
+        return;
+      }
+      const level = bleDriver.vibrateLevel;
+      if (level === 0) {
+        showToast('Vibrate off.');
+        if (window.spxSfx) window.spxSfx.click();
+      } else {
+        showToast(`Vibrate level ${level} of 4`);
+        if (window.spxSfx) window.spxSfx.success();
+      }
+    });
+  }
 
   // Unit Switcher
   unitMphBtn.addEventListener('click', () => {

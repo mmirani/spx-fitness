@@ -145,9 +145,12 @@ class TreadmillEngine {
     }
 
     let ok = true;
-    if (window.spxBleDriver && window.spxBleDriver.isConnected) {
-      ok = await window.spxBleDriver.start();
-      if (ok) ok = await window.spxBleDriver.setTargetSpeed(this._displayToKmh(this.targetSpeed));
+    if (window.spxBleDriver) {
+      if (window.spxBleDriver.vibrateLevel) await window.spxBleDriver.stopVibrate();
+      if (window.spxBleDriver.isConnected) {
+        ok = await window.spxBleDriver.start();
+        if (ok) ok = await window.spxBleDriver.setTargetSpeed(this._displayToKmh(this.targetSpeed));
+      }
     }
 
     if (window.spxSfx) ok ? window.spxSfx.success() : window.spxSfx.error();
