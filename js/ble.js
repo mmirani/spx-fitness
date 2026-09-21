@@ -40,7 +40,7 @@
  *   frame after connect, which appears to be a one-time device info/config
  *   dump (different meaning, do not treat as live telemetry).
  *
- * Vibration: 0x16 on/off, then 0xF0 01 01 speed (official-app shake start).
+ * Vibration: Stop [0x16, 0x00, 0x00]  On [0x16, 0x01, N] N = 1..4
  */
 
 class SPXBluetoothDriver {
@@ -105,15 +105,18 @@ class SPXBluetoothDriver {
   async sendFrame(frame, label = 'Frame') {
     const run = async () => {
       if (this.isSimulating) return true;
-      if (!this.writeChar) {
-        this.log(`Cannot send [${label}]: No write characteristic connected!`, "error");
+      if (!this.isConnected || !this.writeChar) {
+        this.log(`Cannot send [${label}]: not connected.`, "error");
         return false;
       }
       const bytes = Uint8Array.from(frame);
       const hex = Array.from(bytes).map(b => '0x' + b.toString(16).padStart(2, '0')).join(' ');
       this.log(`TX [${label}]: ${hex}`);
       try {
-        await this.writeChar.writeValueWithoutResponse(bytes);
+        await Promise.race([
+          this.writeChar.writeValueWithoutResponse(bytes),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('Write timeout')), 2000)),
+        ]);
         this.log(`  ✓ Sent successfully!`, "success");
         return true;
       } catch (err) {
@@ -157,7 +160,7 @@ class SPXBluetoothDriver {
       });
 
       this.log(`Device Selected: "${this.device.name || 'Unnamed'}" (ID: ${this.device.id})`, "success");
-      this.device.addEventListener('gattserverdisconnected', () => this.onDisconnected());
+      this._bindDisconnect();
       return await this.connectGATT();
     } catch (err) {
       if (err.name === 'NotFoundError') {
@@ -189,12 +192,21 @@ class SPXBluetoothDriver {
 
       this.log(`Found previously-paired device "${match.name}" — reconnecting silently...`);
       this.device = match;
-      this.device.addEventListener('gattserverdisconnected', () => this.onDisconnected());
+      this._bindDisconnect();
       return await this.connectGATT();
     } catch (err) {
       this.log(`Auto-reconnect skipped: ${err.message || err}`, "warn");
       return false;
     }
+  }
+
+  _bindDisconnect() {
+    if (!this.device) return;
+    if (!this._onGattDisconnected) {
+      this._onGattDisconnected = () => this.onDisconnected();
+    }
+    this.device.removeEventListener('gattserverdisconnected', this._onGattDisconnected);
+    this.device.addEventListener('gattserverdisconnected', this._onGattDisconnected);
   }
 
   /**
@@ -203,13 +215,23 @@ class SPXBluetoothDriver {
   async connectGATT() {
     if (!this.device) return false;
 
+    this._stopHeartbeat();
+    this._writeTail = Promise.resolve();
+    this.isConnected = false;
+    this.writeChar = null;
+
+    if (this.device.gatt && this.device.gatt.connected) {
+      try { this.device.gatt.disconnect(); } catch (_) { /* already down */ }
+      await new Promise(r => setTimeout(r, 400));
+    }
+
     this.log("Connecting to GATT Server...");
     try {
       this.server = await this.device.gatt.connect();
       this.log(`Connected! "${this.device.name}"`, "success");
     } catch (err) {
       this.log(`GATT connection failed: ${err.message}`, "error");
-      throw new Error("Connection failed. Is the pad powered on and not paired to your phone?");
+      throw new Error("Connection failed. Power-cycle the pad, turn phone Bluetooth off, then try again.");
     }
 
     // Resolve the target service
@@ -234,8 +256,10 @@ class SPXBluetoothDriver {
     // Resolve Notify characteristic 0xfff1
     try {
       this.notifyChar = await service.getCharacteristic(SPXBluetoothDriver.NOTIFY_CHAR);
+      if (!this._onNotify) this._onNotify = (e) => this.handleNotification(e);
+      this.notifyChar.removeEventListener('characteristicvaluechanged', this._onNotify);
       await this.notifyChar.startNotifications();
-      this.notifyChar.addEventListener('characteristicvaluechanged', (e) => this.handleNotification(e));
+      this.notifyChar.addEventListener('characteristicvaluechanged', this._onNotify);
       this.log(`  ✓ Notify characteristic resolved & subscribed: 0xfff1`, "success");
     } catch (err) {
       this.log(`  Notify subscription note: ${err.message}`, "warn");
@@ -259,6 +283,7 @@ class SPXBluetoothDriver {
   _startHeartbeat() {
     if (this._heartbeatTimer) return;
     this._heartbeatTimer = setInterval(() => {
+      if (!this.isConnected) return;
       this.sendFrame(SPXBluetoothDriver.FRAME.HEARTBEAT, 'Heartbeat/Poll');
     }, 180);
   }
@@ -400,19 +425,6 @@ class SPXBluetoothDriver {
     4: [0xf5, 0x09, 0x00, 0x16, 0x01, 0x04, 0x3e, 0x79, 0xfa],
   };
 
-  // Official-app setShake start: [0xF0, 0x01, 0x01, speed]. 0x16 1–4
-  // all feel the same on this RM-01; speed is the remaining control.
-  static VIBRATE_SPEED = { 1: 0x01, 2: 0x0a, 3: 0x14, 4: 0x1e };
-
-  static encodeCommand(cmdData) {
-    const inner = [0x00, ...cmdData];
-    const logicalLen = 2 + inner.length + 2 + 1;
-    const crc = SPXBluetoothDriver.crc16([0xf5, logicalLen, ...inner]);
-    const tail = [...inner, crc & 0xff, (crc >>> 8) & 0xff]
-      .flatMap(SPXBluetoothDriver._stuffByte);
-    return [0xf5, 2 + tail.length + 1, ...tail, 0xfa];
-  }
-
   async setVibrate(mode) {
     const target = Math.max(1, Math.min(4, mode | 0));
     if (this._beltState === SPXBluetoothDriver.BELT_STATE.RUNNING) {
@@ -429,18 +441,12 @@ class SPXBluetoothDriver {
 
     this._vibrateBusy = true;
     try {
-      const on = await this.sendFrame(
+      const ok = await this.sendFrame(
         SPXBluetoothDriver.VIBRATE_FRAME[target],
         `Vibrate ${SPXBluetoothDriver.VIBRATE_MODES[target]}`
       );
-      if (!on) return false;
-      const speed = SPXBluetoothDriver.VIBRATE_SPEED[target];
-      await this.sendFrame(
-        SPXBluetoothDriver.encodeCommand([0xf0, 0x01, 0x01, speed]),
-        `Shake speed ${speed}`
-      );
-      this.vibrateLevel = target;
-      return true;
+      if (ok) this.vibrateLevel = target;
+      return ok;
     } finally {
       this._vibrateBusy = false;
     }
@@ -513,6 +519,8 @@ class SPXBluetoothDriver {
   onDisconnected() {
     this.isConnected = false;
     this._stopHeartbeat();
+    this._writeTail = Promise.resolve();
+    this.writeChar = null;
     this._beltState = 0;
     this.vibrateLevel = 0;
     this.log("Device disconnected.", "warn");
